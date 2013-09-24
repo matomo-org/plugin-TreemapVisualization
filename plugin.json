@@ -5,6 +5,10 @@
     "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
     "license": "GPL-3.0+",
     "homepage": "http://piwik.org",
+    "require": {
+        "piwik": ">=2.0.0",
+        "php": ">=5.3.0"
+    },
     "authors": [
         {
             "name": "Piwik",
