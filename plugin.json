@@ -1,0 +1,15 @@
+{
+    "name": "TreemapVisualization",
+    "version": "1.0-beta:",
+    "description": "This Piwik plugin adds a new report visualization: the treemap. With this plugin you can view your data as a graph that displays rows with rectangles of different sizes.",
+    "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
+    "license": "GPL-3.0+",
+    "homepage": "http://piwik.org",
+    "authors": [
+        {
+            "name": "Piwik",
+            "email": "hello@piwik.org",
+            "homepage": "http://piwik.org"
+        }
+    ]
+}
