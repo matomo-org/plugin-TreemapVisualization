@@ -44,10 +44,10 @@ class TreemapVisualization extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'         => 'getJsFiles',
-            'ViewDataTable.getAvailableVisualization' => 'getAvailableVisualizations',
-            'ViewDataTable.configureReportView'       => 'configureReportViewForActions'
+            'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
+            'Visualization.addVisualizations'   => 'getAvailableVisualizations',
+            'Visualization.initView'            => 'configureReportViewForActions'
         );
     }
 
