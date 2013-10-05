@@ -160,7 +160,7 @@ class TreemapDataGenerator
         // if showEvolutionValues is true, $dataTable must be a DataTable\Map w/ two child tables
         $pastData = false;
         if ($this->showEvolutionValues) {
-            list($pastData, $dataTable) = array_values($dataTable->getArray());
+            list($pastData, $dataTable) = array_values($dataTable->getDataTables());
             $this->pastDataDate = $pastData->getMetadata('period')->getLocalizedShortString();
         }
 

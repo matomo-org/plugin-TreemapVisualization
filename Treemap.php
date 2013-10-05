@@ -141,7 +141,7 @@ class Treemap extends Graph
     private function getCurrentData($dataTable)
     {
         if ($dataTable instanceof Map) { // will be true if calculating evolution values
-            $childTables = $dataTable->getArray();
+            $childTables = $dataTable->getDataTables();
             return end($childTables);
         } else {
             return $dataTable;
