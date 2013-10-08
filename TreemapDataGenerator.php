@@ -26,14 +26,14 @@ class TreemapDataGenerator
 
     /**
      * The list of row metadata that should appear in treemap JSON data, if in the row.
-     * 
+     *
      * @var array
      */
     private static $rowMetadataToCopy = array('logo', 'url');
 
     /**
      * The name of the root node.
-     * 
+     *
      * @var string
      */
     private $rootName = '';
@@ -43,49 +43,49 @@ class TreemapDataGenerator
      * 'Others' row), the DataTable used won't have the initial rows, so the row offsets
      * aren't the same as the row IDs. In order to make sure each node has a unique ID,
      * we need to to know the actual row offset of each row.
-     * 
+     *
      * @var int
      */
     private $firstRowOffset = 0;
 
     /**
      * The name of the metric to generate a treemap for.
-     * 
+     *
      * @var string
      */
     private $metricToGraph;
 
     /**
      * The internationalized label of the metric to graph. Used in the tooltip of each node.
-     * 
+     *
      * @var string
      */
     private $metricTranslation;
 
     /**
      * Whether to include evolution values in the output JSON.
-     * 
+     *
      * @var bool
      */
     private $showEvolutionValues = false;
 
     /**
      * Holds the date of the past period. Implementation detail.
-     * 
+     *
      * @var string
      */
     private $pastDataDate = null;
 
     /**
      * Holds the available screen width in pixels for the treemap.
-     * 
+     *
      * @var int
      */
     private $availableWidth = false;
 
     /**
      * Holds the available screen height in pixels for the treemap.
-     * 
+     *
      * @var int
      */
     private $availableHeight = false;
@@ -104,7 +104,7 @@ class TreemapDataGenerator
 
     /**
      * Sets the name of the root node.
-     * 
+     *
      * @param string $name
      */
     public function setRootNodeName($name)
@@ -114,7 +114,7 @@ class TreemapDataGenerator
 
     /**
      * Sets the offset of the first row in the converted DataTable.
-     * 
+     *
      * @param int $offset
      */
     public function setInitialRowOffset($offset)
@@ -133,7 +133,7 @@ class TreemapDataGenerator
 
     /**
      * Sets the available screen width & height for this treemap.
-     * 
+     *
      * @param int $availableWidth
      * @param int $availableHeight
      */
@@ -145,7 +145,7 @@ class TreemapDataGenerator
 
     /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
-     * 
+     *
      * @param \Piwik\DataTable $dataTable
      * @return array
      */
@@ -231,7 +231,7 @@ class TreemapDataGenerator
     private function makeNodeFromRow($tableId, $rowId, $row, $pastRow)
     {
         $label = $row->getColumn('label');
-        $columnValue = $row->getColumn($this->metricToGraph) ?: 0;
+        $columnValue = $row->getColumn($this->metricToGraph) ? : 0;
 
         if ($columnValue == 0) { // avoid issues in JIT w/ 0 $area values
             return false;
@@ -255,7 +255,7 @@ class TreemapDataGenerator
             if ($pastRow === false) {
                 $data['evolution'] = 100;
             } else {
-                $pastValue = $pastRow->getColumn($this->metricToGraph) ?: 0;
+                $pastValue = $pastRow->getColumn($this->metricToGraph) ? : 0;
                 $data['evolution'] = CalculateEvolutionFilter::calculate(
                     $columnValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = false);
             }
@@ -268,9 +268,9 @@ class TreemapDataGenerator
             $evolutionChange = $plusOrMinus . abs($data['evolution']) . '%';
 
             $data['metadata']['tooltip'] = Piwik_Translate('General_XComparedToY', array(
-                $data['metadata']['tooltip'] . "\n" . $evolutionChange,
-                $this->pastDataDate
-            ));
+                                                                                        $data['metadata']['tooltip'] . "\n" . $evolutionChange,
+                                                                                        $this->pastDataDate
+                                                                                   ));
         }
 
         return $this->makeNode($this->getNodeId($tableId, $rowId), $label, $data);

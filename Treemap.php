@@ -21,7 +21,7 @@ use Piwik\ViewDataTable\Graph;
 /**
  * DataTable visualization that displays DataTable data as a treemap (see
  * http://en.wikipedia.org/wiki/Treemapping).
- * 
+ *
  * Uses the JavaScript Infovis Toolkit (see philogb.github.io/jit/).
  */
 class Treemap extends Graph
@@ -34,7 +34,7 @@ class Treemap extends Graph
      * Controls whether the treemap nodes should be colored based on the evolution percent of
      * individual metrics, or not. If false, the jqPlot pie graph's series colors are used to
      * randomly color different nodes.
-     * 
+     *
      * Default Value: false
      */
     const SHOW_EVOLUTION_VALUES = 'show_evolution_values';
@@ -48,7 +48,7 @@ class Treemap extends Graph
 
     /**
      * Constructor.
-     * 
+     *
      * @param \Piwik\ViewDataTable $view
      */
     public function __construct($view)
@@ -78,7 +78,7 @@ class Treemap extends Graph
         $translation = empty($view->translations[$metric]) ? $metric : $view->translations[$metric];
 
         $this->generator = new TreemapDataGenerator($metric, $translation);
-        $this->generator->setInitialRowOffset($view->filter_offset ?: 0);
+        $this->generator->setInitialRowOffset($view->filter_offset ? : 0);
 
         $availableWidth = Common::getRequestVar('availableWidth', false);
         $availableHeight = Common::getRequestVar('availableHeight', false);
@@ -87,7 +87,7 @@ class Treemap extends Graph
 
     /**
      * Returns the default view property values for this visualization.
-     * 
+     *
      * @return array
      */
     public static function getDefaultPropertyValues()
@@ -102,7 +102,7 @@ class Treemap extends Graph
      * Checks if the data obtained by ViewDataTable has data or not. Since we get the last period
      * when calculating evolution, we need this hook to determine if there's data in the latest
      * table.
-     * 
+     *
      * @param \Piwik\DataTable $dataTable
      * @return true
      */
