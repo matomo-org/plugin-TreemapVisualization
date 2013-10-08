@@ -10,10 +10,10 @@
  */
 namespace Piwik\Plugins\TreemapVisualization;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Period\Range;
-use Piwik\API\Request;
 
 class API
 {

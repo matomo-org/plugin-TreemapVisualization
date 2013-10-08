@@ -11,8 +11,8 @@
 
 namespace Piwik\Plugins\TreemapVisualization;
 
-use Piwik\Period;
 use Piwik\Common;
+use Piwik\Period;
 
 /**
  * @see plugins/TreemapVisualization/Treemap.php

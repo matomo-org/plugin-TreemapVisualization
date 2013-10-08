@@ -11,9 +11,9 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 
 /**
  * A utility class that generates JSON data meant to be used with the JavaScript

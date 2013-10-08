@@ -12,10 +12,10 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
-use Piwik\View;
+use Piwik\DataTable\Map;
 use Piwik\Period;
 use Piwik\Period\Range;
-use Piwik\DataTable\Map;
+use Piwik\View;
 use Piwik\ViewDataTable\Graph;
 
 /**
