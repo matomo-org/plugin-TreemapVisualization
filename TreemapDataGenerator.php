@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable;
 use Piwik\DataTable\Map;
+use Piwik\Piwik;
 
 /**
  * A utility class that generates JSON data meant to be used with the JavaScript
@@ -267,7 +268,7 @@ class TreemapDataGenerator
             $plusOrMinus = $data['evolution'] >= 0 ? '+' : '-';
             $evolutionChange = $plusOrMinus . abs($data['evolution']) . '%';
 
-            $data['metadata']['tooltip'] = Piwik_Translate('General_XComparedToY', array(
+            $data['metadata']['tooltip'] = Piwik::translate('General_XComparedToY', array(
                                                                                         $data['metadata']['tooltip'] . "\n" . $evolutionChange,
                                                                                         $this->pastDataDate
                                                                                    ));
