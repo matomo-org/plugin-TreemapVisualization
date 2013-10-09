@@ -1,6 +1,6 @@
 # Description
 
-TreemapVisualization is a Piwik plugin that provides the treemap report visualization.
+TreemapVisualization is a Piwik plugin that provides the treemap report visualization. 
 
 ## Features
 
