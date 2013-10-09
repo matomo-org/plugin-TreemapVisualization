@@ -11,8 +11,8 @@
 
 namespace Piwik\Plugins\TreemapVisualization;
 
-use Piwik\Period;
 use Piwik\Common;
+use Piwik\Period;
 
 /**
  * @see plugins/TreemapVisualization/Treemap.php
@@ -44,10 +44,10 @@ class TreemapVisualization extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
-            'Visualization.addVisualizations'   => 'getAvailableVisualizations',
-            'Visualization.initView'            => 'configureReportViewForActions'
+            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
+            'Visualization.addVisualizations' => 'getAvailableVisualizations',
+            'Visualization.initView'          => 'configureReportViewForActions'
         );
     }
 
@@ -108,7 +108,7 @@ class TreemapVisualization extends \Piwik\Plugin
                 }
             }
         } else if ($module === 'ExampleUI'
-                   && $view->getViewDataTableId() == Treemap::ID
+            && $view->getViewDataTableId() == Treemap::ID
         ) {
             $view->visualization_properties->show_evolution_values = false;
         }

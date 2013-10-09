@@ -77,7 +77,7 @@
         /**
          * Recursively iterates over the entire data tree and executes a function with
          * each node.
-         * 
+         *
          * @param {Function} f The function to execute. Accepts one argument, the node.
          * @param {Object} [node] The JSON node object to start from. This defaults to the root
          *                        of the entire tree.
@@ -93,7 +93,7 @@
 
         /**
          * Changes the metric the treemap displays.
-         * 
+         *
          * @param {String} metric The name of the metric, e.g. 'nb_visits', 'nb_actions', etc.
          */
         changeMetric: function (metric) {
@@ -131,15 +131,15 @@
                 var displayedColumn = this.getMetricTranslation(self.param.columns);
 
                 var metricLabel = $('<span/>')
-                    .addClass('infoviz-treemap-colors')
-                    .attr('data-name', 'header-color')
-                    .text("— " + displayedColumn)
+                        .addClass('infoviz-treemap-colors')
+                        .attr('data-name', 'header-color')
+                        .text("— " + displayedColumn)
                     ;
 
                 var seriesPickerContainer = $('<div/>') // TODO: this behavior should probably be a part of SeriesPicker
-                    .addClass('infoviz-treemap-series-picker')
-                    .append(metricLabel)
-                    .append(this.domElem)
+                        .addClass('infoviz-treemap-series-picker')
+                        .append(metricLabel)
+                        .append(this.domElem)
                     ;
 
                 dataTableDomElem.find('.infoviz-treemap').prepend(seriesPickerContainer);
@@ -185,7 +185,7 @@
             }
             if (node.data.metadata
                 && node.data.metadata.tooltip
-            ) {
+                ) {
                 tooltip += ' ' + node.data.metadata.tooltip;
             }
             $nodeElement.attr('title', tooltip);
@@ -198,7 +198,7 @@
             // if the node can be clicked into, show a pointer cursor over it
             if (this._canEnterNode(node)
                 || nodeHasUrl
-            ) {
+                ) {
                 $nodeElement.addClass("infoviz-treemap-enterable-node");
             }
         },
@@ -316,7 +316,7 @@
          */
         _setTreemapColorsNormal: function (root) {
             var seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
-                                    'series6', 'series7', 'series8', 'series9', 'series10'];
+                'series6', 'series7', 'series8', 'series9', 'series10'];
             var colors = piwik.ColorManager.getColors('pie-graph-colors', seriesColorNames, true);
 
             var colorIdx = 0;
@@ -328,7 +328,7 @@
 
         /**
          * Event handler for when a node is left-clicked.
-         * 
+         *
          * This function will enter the node if it can be entered. If it can't be entered, we try
          * and open the node's associated URL, if it has one.
          */
@@ -346,7 +346,7 @@
 
         /**
          * Event handler for when a node is middle clicked.
-         * 
+         *
          * If the node has a url, this function will load the URL in a new tab/window.
          */
         _onMiddleClick: function (node) {
@@ -363,14 +363,14 @@
         _openNodeUrl: function (node) {
             if (node.data.metadata
                 && node.data.metadata.url
-            ) {
+                ) {
                 window.open(node.data.metadata.url, '_blank');
             }
         },
 
         /**
          * Event handler for when a node is right clicked.
-         * 
+         *
          * This function will advance to the parent of the current node, if it has one.
          */
         _onRightClickNode: function (node) {
@@ -486,12 +486,12 @@
          * Returns true if the given node has a subtable, false if otherwise.
          */
         _nodeHasSubtable: function (node) {
-            return !! node.data.idSubtable;
+            return !!node.data.idSubtable;
         },
 
         /**
          * Returns true if the given node can be entered, false if otherwise.
-         * 
+         *
          * A node can be entered if it has a subtable.
          */
         _canEnterNode: function (node) {
@@ -540,7 +540,7 @@
         // into the DOM
         var $wrapper = dataTable.$element.find('.dataTableWrapper'),
             $dummyTreemap = $('<div/>').addClass('infoviz-treemap').css({'visibility': 'hidden', 'position': 'absolute'});
-        
+
         $wrapper.prepend($dummyTreemap);
         var width = $dummyTreemap.width(), height = $dummyTreemap.height();
 
