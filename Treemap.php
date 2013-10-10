@@ -29,6 +29,7 @@ class Treemap extends Graph
     const ID = 'infoviz-treemap';
     const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
+    const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
 
     /**
      * Controls whether the treemap nodes should be colored based on the evolution percent of
@@ -45,8 +46,6 @@ class Treemap extends Graph
         'show_evolution_values',
         'subtable_controller_action'
     );
-
-    protected $templateFile = '@TreemapVisualization/_dataTableViz_treemap.twig';
 
     /**
      * Init.
