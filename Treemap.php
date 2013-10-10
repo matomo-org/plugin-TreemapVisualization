@@ -46,17 +46,19 @@ class Treemap extends Graph
         'subtable_controller_action'
     );
 
+    protected $templateFile = '@TreemapVisualization/_dataTableViz_treemap.twig';
+
     /**
      * Constructor.
      *
      * @param \Piwik\ViewDataTable $view
      */
-    public function __construct($view)
+    public function init($view)
     {
         // we determine the elements count dynamically based on available width/height
         $view->visualization_properties->max_graph_elements = false;
 
-        parent::__construct($view, '@TreemapVisualization/_dataTableViz_treemap.twig');
+        parent::init($view);
 
         $view->datatable_js_type = 'TreemapDataTable';
         $view->show_pagination_control = false;
