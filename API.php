@@ -15,18 +15,8 @@ use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 
-class API
+class API extends \Piwik\Plugin\API
 {
-    private static $instance = null;
-
-    public static function getInstance()
-    {
-        if (self::$instance == null) {
-            self::$instance = new self;
-        }
-        return self::$instance;
-    }
-
     /**
      * Gets report data and converts it into data that can be used with the JavaScript Infovis
      * Toolkit's treemap visualization.
