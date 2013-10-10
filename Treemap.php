@@ -49,12 +49,12 @@ class Treemap extends Graph
     protected $templateFile = '@TreemapVisualization/_dataTableViz_treemap.twig';
 
     /**
-     * Constructor.
-     *
-     * @param \Piwik\ViewDataTable $view
+     * Init.
      */
-    public function init($view)
+    public function init()
     {
+        $view = $this->viewDataTable;
+
         // we determine the elements count dynamically based on available width/height
         $view->visualization_properties->max_graph_elements = false;
 
