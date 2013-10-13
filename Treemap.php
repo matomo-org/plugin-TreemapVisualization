@@ -17,6 +17,8 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\View;
 use Piwik\ViewDataTable\Graph;
+use Piwik\Visualization\Config;
+use Piwik\Visualization\Request;
 
 /**
  * DataTable visualization that displays DataTable data as a treemap (see
@@ -27,9 +29,9 @@ use Piwik\ViewDataTable\Graph;
 class Treemap extends Graph
 {
     const ID = 'infoviz-treemap';
-    const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
+    const FOOTER_ICON       = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
-    const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
+    const TEMPLATE_FILE     = '@TreemapVisualization/_dataTableViz_treemap.twig';
 
     /**
      * Controls whether the treemap nodes should be colored based on the evolution percent of
@@ -47,43 +49,37 @@ class Treemap extends Graph
         'subtable_controller_action'
     );
 
-    /**
-     * Init.
-     */
-    public function init()
+    public function configureVisualization(Config $properties)
     {
-        $view = $this->viewDataTable;
+        parent::configureVisualization($properties);
 
         // we determine the elements count dynamically based on available width/height
-        $view->visualization_properties->max_graph_elements = false;
+        $properties->visualization_properties->max_graph_elements = false;
 
-        parent::init($view);
-
-        $view->datatable_js_type = 'TreemapDataTable';
-        $view->show_pagination_control = false;
-        $view->show_offset_information = false;
-        $view->show_flatten_table = false;
-
-        $metric = $this->getMetricToGraph($view->columns_to_display);
-        $view->filters[] = function ($dataTable, $view) use ($metric) {
-            $view->custom_parameters['columns'] = $metric;
-        };
-
-        $this->createTreemapDataGenerator($view);
-        $this->handleShowEvolutionValues($view);
+        $properties->datatable_js_type = 'TreemapDataTable';
+        $properties->show_pagination_control = false;
+        $properties->show_offset_information = false;
+        $properties->show_flatten_table = false;
     }
 
-    private function createTreemapDataGenerator($view)
+    public function beforeLoadDataTable(Request $request, Config $properties)
     {
-        $metric = $this->getMetricToGraph($view->columns_to_display);
-        $translation = empty($view->translations[$metric]) ? $metric : $view->translations[$metric];
+        $metric      = $this->getMetricToGraph($properties->columns_to_display);
+        $translation = empty($properties->translations[$metric]) ? $metric : $properties->translations[$metric];
 
         $this->generator = new TreemapDataGenerator($metric, $translation);
-        $this->generator->setInitialRowOffset($view->filter_offset ? : 0);
+        $this->generator->setInitialRowOffset($request->filter_offset ? : 0);
 
-        $availableWidth = Common::getRequestVar('availableWidth', false);
+        $availableWidth  = Common::getRequestVar('availableWidth', false);
         $availableHeight = Common::getRequestVar('availableHeight', false);
         $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
+
+        $this->handleShowEvolutionValues($request, $properties);
+    }
+
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    {
+        $properties->custom_parameters['columns'] = $this->getMetricToGraph($properties->columns_to_display);
     }
 
     /**
@@ -95,7 +91,7 @@ class Treemap extends Graph
     {
         $result = parent::getDefaultPropertyValues();
         $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
-        $result['visualization_properties']['infoviz-treemap']['show_evolution_values'] = true;
+        $result['visualization_properties']['infoviz-treemap']['show_evolution_values']  = true;
         return $result;
     }
 
@@ -121,7 +117,7 @@ class Treemap extends Graph
         return $firstColumn;
     }
 
-    private function handleShowEvolutionValues($view)
+    private function handleShowEvolutionValues(Request $request, Config $properties)
     {
         // evolution values cannot be calculated if range period is used
         $period = Common::getRequestVar('period');
@@ -129,11 +125,11 @@ class Treemap extends Graph
             return;
         }
 
-        if ($view->visualization_properties->show_evolution_values) {
+        if ($properties->visualization_properties->show_evolution_values) {
             $date = Common::getRequestVar('date');
             list($previousDate, $ignore) = Range::getLastDate($date, $period);
 
-            $view->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
+            $request->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
 
             $this->generator->showEvolutionValues();
         }
