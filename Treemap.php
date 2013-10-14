@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
+use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Map;
 use Piwik\Period;
 use Piwik\Period\Range;
@@ -42,7 +43,7 @@ class Treemap extends Graph
      */
     const SHOW_EVOLUTION_VALUES = 'show_evolution_values';
 
-    public static $clientSideProperties = array(
+    public static $clientSideConfigProperties = array(
         'filter_offset',
         'max_graph_elements',
         'show_evolution_values',
@@ -77,7 +78,7 @@ class Treemap extends Graph
         $this->handleShowEvolutionValues($request, $properties);
     }
 
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable($dataTable, Config $properties, Request $request)
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
     {
         $properties->custom_parameters['columns'] = $this->getMetricToGraph($properties->columns_to_display);
     }
