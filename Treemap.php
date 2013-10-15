@@ -26,6 +26,8 @@ use Piwik\Visualization\Request;
  * http://en.wikipedia.org/wiki/Treemapping).
  *
  * Uses the JavaScript Infovis Toolkit (see philogb.github.io/jit/).
+ *
+ * @property TreemapConfig $config
  */
 class Treemap extends Graph
 {
@@ -35,65 +37,53 @@ class Treemap extends Graph
     const TEMPLATE_FILE     = '@TreemapVisualization/_dataTableViz_treemap.twig';
 
     /**
-     * Controls whether the treemap nodes should be colored based on the evolution percent of
-     * individual metrics, or not. If false, the jqPlot pie graph's series colors are used to
-     * randomly color different nodes.
-     *
-     * Default Value: false
+     * @var TreemapDataGenerator|null
      */
-    const SHOW_EVOLUTION_VALUES = 'show_evolution_values';
-
-    public static $clientSideConfigProperties = array(
-        'filter_offset',
-        'max_graph_elements',
-        'show_evolution_values',
-        'subtable_controller_action'
-    );
-
-    public function configureVisualization(Config $properties)
-    {
-        parent::configureVisualization($properties);
-
-        // we determine the elements count dynamically based on available width/height
-        $properties->visualization_properties->max_graph_elements = false;
-
-        $properties->datatable_js_type = 'TreemapDataTable';
-        $properties->show_pagination_control = false;
-        $properties->show_offset_information = false;
-        $properties->show_flatten_table = false;
-    }
-
-    public function beforeLoadDataTable(Request $request, Config $properties)
-    {
-        $metric      = $this->getMetricToGraph($properties->columns_to_display);
-        $translation = empty($properties->translations[$metric]) ? $metric : $properties->translations[$metric];
-
-        $this->generator = new TreemapDataGenerator($metric, $translation);
-        $this->generator->setInitialRowOffset($request->filter_offset ? : 0);
-
-        $availableWidth  = Common::getRequestVar('availableWidth', false);
-        $availableHeight = Common::getRequestVar('availableHeight', false);
-        $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
-
-        $this->handleShowEvolutionValues($request, $properties);
-    }
-
-    public function beforeGenericFiltersAreAppliedToLoadedDataTable(DataTableInterface $dataTable, Config $properties, Request $request)
-    {
-        $properties->custom_parameters['columns'] = $this->getMetricToGraph($properties->columns_to_display);
-    }
+    public $generator;
 
     /**
      * Returns the default view property values for this visualization.
      *
      * @return array
      */
-    public static function getDefaultPropertyValues()
+    public function getDefaultConfig()
     {
-        $result = parent::getDefaultPropertyValues();
-        $result['visualization_properties']['graph']['allow_multi_select_series_picker'] = false;
-        $result['visualization_properties']['infoviz-treemap']['show_evolution_values']  = true;
-        return $result;
+        return new TreemapConfig();
+    }
+
+    public function configureVisualization()
+    {
+        parent::configureVisualization();
+
+        // we determine the elements count dynamically based on available width/height
+        $this->config->max_graph_elements = false;
+
+        $this->config->datatable_js_type = 'TreemapDataTable';
+        $this->config->show_pagination_control = false;
+        $this->config->show_offset_information = false;
+        $this->config->show_flatten_table = false;
+    }
+
+    public function beforeLoadDataTable()
+    {
+        $metric      = $this->getMetricToGraph($this->config->columns_to_display);
+        $translation = empty($this->config->translations[$metric]) ? $metric : $this->config->translations[$metric];
+
+        $this->generator = new TreemapDataGenerator($metric, $translation);
+        $this->generator->setInitialRowOffset($this->requestConfig->filter_offset ? : 0);
+
+        $availableWidth  = Common::getRequestVar('availableWidth', false);
+        $availableHeight = Common::getRequestVar('availableHeight', false);
+        $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
+
+        $this->assignTemplateVar('generator', $this->generator);
+
+        $this->handleShowEvolutionValues();
+    }
+
+    public function beforeGenericFiltersAreAppliedToLoadedDataTable()
+    {
+        $this->config->custom_parameters['columns'] = $this->getMetricToGraph($this->config->columns_to_display);
     }
 
     /**
@@ -104,9 +94,9 @@ class Treemap extends Graph
      * @param \Piwik\DataTable $dataTable
      * @return true
      */
-    public function isThereDataToDisplay($dataTable, $view)
+    public function isThereDataToDisplay()
     {
-        return $this->getCurrentData($dataTable)->getRowsCount() != 0;
+        return $this->getCurrentData($this->dataTable)->getRowsCount() != 0;
     }
 
     public function getMetricToGraph($columnsToDisplay)
@@ -118,7 +108,7 @@ class Treemap extends Graph
         return $firstColumn;
     }
 
-    private function handleShowEvolutionValues(Request $request, Config $properties)
+    private function handleShowEvolutionValues()
     {
         // evolution values cannot be calculated if range period is used
         $period = Common::getRequestVar('period');
@@ -126,11 +116,11 @@ class Treemap extends Graph
             return;
         }
 
-        if ($properties->visualization_properties->show_evolution_values) {
+        if ($this->config->show_evolution_values) {
             $date = Common::getRequestVar('date');
             list($previousDate, $ignore) = Range::getLastDate($date, $period);
 
-            $request->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
+            $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
 
             $this->generator->showEvolutionValues();
         }

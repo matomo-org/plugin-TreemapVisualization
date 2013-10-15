@@ -13,6 +13,8 @@ namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
 use Piwik\Period;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\ViewDataTable\Request;
 
 /**
  * @see plugins/TreemapVisualization/Treemap.php
@@ -71,17 +73,17 @@ class TreemapVisualization extends \Piwik\Plugin
         $jsFiles[] = 'plugins/TreemapVisualization/javascripts/treemapViz.js';
     }
 
-    public function configureReportViewForActions($view)
+    public function configureReportViewForActions(ViewDataTable $view)
     {
-        list($module, $method) = explode('.', $view->getReportApiMethod());
+        list($module, $method) = explode('.', $view->requestConfig->apiMethodToRequestDataTable);
 
         // make sure treemap is shown on actions reports
         if ($module === 'Actions') {
             if ($view->getViewDataTableId() != Treemap::ID) {
                 // make sure we're looking at data that the treemap visualization can use (a single datatable)
                 // TODO: this is truly ugly code. need to think up an abstraction that can allow us to describe the
-                //       problem...
-                $requestArray = $view->getRequestArray() + $_GET + $_POST;
+                $viewDataRequest = new Request($view->requestConfig);
+                $requestArray = $viewDataRequest->getRequestArray() + $_GET + $_POST;
                 $date = Common::getRequestVar('date', null, 'string', $requestArray);
                 $period = Common::getRequestVar('period', null, 'string', $requestArray);
                 $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
@@ -93,24 +95,24 @@ class TreemapVisualization extends \Piwik\Plugin
                 }
             }
 
-            $view->show_all_views_icons = true;
-            $view->show_bar_chart = false;
-            $view->show_pie_chart = false;
-            $view->show_tag_cloud = false;
+            $view->config->show_all_views_icons = true;
+            $view->config->show_bar_chart = false;
+            $view->config->show_pie_chart = false;
+            $view->config->show_tag_cloud = false;
 
             if ($view->getViewDataTableId() == Treemap::ID) {
                 // for some actions reports, use all available space
                 if (in_array($method, self::$fullWidthActionsReports)) {
-                    $view->datatable_css_class = 'infoviz-treemap-full-width';
-                    $view->visualization_properties->max_graph_elements = 50;
+                    $view->config->datatable_css_class = 'infoviz-treemap-full-width';
+                    $view->config->max_graph_elements = 50;
                 } else {
-                    $view->visualization_properties->max_graph_elements = max(10, $view->visualization_properties->max_graph_elements);
+                    $view->config->max_graph_elements = max(10, $view->config->max_graph_elements);
                 }
             }
         } else if ($module === 'ExampleUI'
             && $view->getViewDataTableId() == Treemap::ID
         ) {
-            $view->visualization_properties->show_evolution_values = false;
+            $view->config->show_evolution_values = false;
         }
     }
 }
