@@ -88,8 +88,7 @@ class Treemap extends Graph
      * when calculating evolution, we need this hook to determine if there's data in the latest
      * table.
      *
-     * @param \Piwik\DataTable $dataTable
-     * @return true
+     * @return bool
      */
     public function isThereDataToDisplay()
     {
