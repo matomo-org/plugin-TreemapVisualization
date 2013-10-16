@@ -29,9 +29,9 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 class Treemap extends Graph
 {
     const ID = 'infoviz-treemap';
+    const TEMPLATE_FILE     = '@TreemapVisualization/_dataTableViz_treemap.twig';
     const FOOTER_ICON       = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
-    const TEMPLATE_FILE     = '@TreemapVisualization/_dataTableViz_treemap.twig';
 
     /**
      * @var TreemapDataGenerator|null
@@ -54,11 +54,10 @@ class Treemap extends Graph
 
         // we determine the elements count dynamically based on available width/height
         $this->config->max_graph_elements = false;
-
-        $this->config->datatable_js_type = 'TreemapDataTable';
+        $this->config->datatable_js_type  = 'TreemapDataTable';
+        $this->config->show_flatten_table = false;
         $this->config->show_pagination_control = false;
         $this->config->show_offset_information = false;
-        $this->config->show_flatten_table = false;
     }
 
     public function beforeLoadDataTable()
@@ -66,11 +65,12 @@ class Treemap extends Graph
         $metric      = $this->getMetricToGraph($this->config->columns_to_display);
         $translation = empty($this->config->translations[$metric]) ? $metric : $this->config->translations[$metric];
 
-        $this->generator = new TreemapDataGenerator($metric, $translation);
-        $this->generator->setInitialRowOffset($this->requestConfig->filter_offset ? : 0);
-
         $availableWidth  = Common::getRequestVar('availableWidth', false);
         $availableHeight = Common::getRequestVar('availableHeight', false);
+        $filterOffset    = $this->requestConfig->filter_offset ? : 0;
+
+        $this->generator = new TreemapDataGenerator($metric, $translation);
+        $this->generator->setInitialRowOffset($filterOffset);
         $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
 
         $this->assignTemplateVar('generator', $this->generator);
@@ -93,6 +93,16 @@ class Treemap extends Graph
     public function isThereDataToDisplay()
     {
         return $this->getCurrentData($this->dataTable)->getRowsCount() != 0;
+    }
+
+    private function getCurrentData($dataTable)
+    {
+        if ($dataTable instanceof Map) { // will be true if calculating evolution values
+            $childTables = $dataTable->getDataTables();
+            return end($childTables);
+        } else {
+            return $dataTable;
+        }
     }
 
     public function getMetricToGraph($columnsToDisplay)
@@ -119,16 +129,6 @@ class Treemap extends Graph
             $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
 
             $this->generator->showEvolutionValues();
-        }
-    }
-
-    private function getCurrentData($dataTable)
-    {
-        if ($dataTable instanceof Map) { // will be true if calculating evolution values
-            $childTables = $dataTable->getDataTables();
-            return end($childTables);
-        } else {
-            return $dataTable;
         }
     }
 }
