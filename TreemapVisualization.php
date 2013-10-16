@@ -78,7 +78,7 @@ class TreemapVisualization extends \Piwik\Plugin
         list($module, $method) = explode('.', $view->requestConfig->apiMethodToRequestDataTable);
 
         // make sure treemap is shown on actions reports
-        if ($module === 'Actions') {
+        if ('Actions' === $module) {
             if ($view->getViewDataTableId() != Treemap::ID) {
                 // make sure we're looking at data that the treemap visualization can use (a single datatable)
                 // TODO: this is truly ugly code. need to think up an abstraction that can allow us to describe the
@@ -109,8 +109,9 @@ class TreemapVisualization extends \Piwik\Plugin
                     $view->config->max_graph_elements = max(10, $view->config->max_graph_elements);
                 }
             }
-        } else if ($module === 'ExampleUI'
-            && $view->getViewDataTableId() == Treemap::ID
+
+        } else if ('ExampleUI' === $module
+                   && Treemap::ID == $view->getViewDataTableId()
         ) {
             $view->config->show_evolution_values = false;
         }
