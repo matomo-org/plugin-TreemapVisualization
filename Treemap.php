@@ -16,7 +16,7 @@ use Piwik\DataTable\Map;
 use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\View;
-use Piwik\ViewDataTable\Graph;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 
 /**
  * DataTable visualization that displays DataTable data as a treemap (see

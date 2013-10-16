@@ -11,7 +11,7 @@
 
 namespace Piwik\Plugins\TreemapVisualization;
 
-use Piwik\ViewDataTable\Graph\Config as GraphConfig;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Graph\Config as GraphConfig;
 
 /**
  * DataTable Visualization that derives from HtmlTable and sets show_extra_columns to true.
