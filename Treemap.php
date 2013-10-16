@@ -108,7 +108,7 @@ class Treemap extends Graph
     public function getMetricToGraph($columnsToDisplay)
     {
         $firstColumn = reset($columnsToDisplay);
-        if ($firstColumn == 'label') {
+        if ('label' == $firstColumn) {
             $firstColumn = next($columnsToDisplay);
         }
         return $firstColumn;
