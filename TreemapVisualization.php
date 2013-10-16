@@ -26,19 +26,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/TreemapVisualization/Treemap.php';
  */
 class TreemapVisualization extends \Piwik\Plugin
 {
-    /**
-     * The list of Actions reports for whom the treemap should have a width of 100%.
-     */
-    private static $fullWidthActionsReports = array(
-        'getPageUrls',
-        'getEntryPageUrls',
-        'getExitPageUrls',
-        'getEntryPageTitles',
-        'getExitPageTitles',
-        'getPageTitles',
-        'getOutlinks',
-        'getDownloads',
-    );
 
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -75,45 +62,35 @@ class TreemapVisualization extends \Piwik\Plugin
 
     public function configureReportViewForActions(ViewDataTable $view)
     {
-        list($module, $method) = explode('.', $view->requestConfig->apiMethodToRequestDataTable);
-
-        // make sure treemap is shown on actions reports
-        if ('Actions' === $module) {
-            if ($view->getViewDataTableId() != Treemap::ID) {
-                // make sure we're looking at data that the treemap visualization can use (a single datatable)
-                // TODO: this is truly ugly code. need to think up an abstraction that can allow us to describe the
-                $viewDataRequest = new Request($view->requestConfig);
-                $requestArray = $viewDataRequest->getRequestArray() + $_GET + $_POST;
-                $date = Common::getRequestVar('date', null, 'string', $requestArray);
-                $period = Common::getRequestVar('period', null, 'string', $requestArray);
-                $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
-                if (Period::isMultiplePeriod($date, $period)
-                    || strpos($idSite, ',') !== false
-                    || $idSite == 'all'
-                ) {
-                    return;
-                }
-            }
-
-            $view->config->show_all_views_icons = true;
-            $view->config->show_bar_chart = false;
-            $view->config->show_pie_chart = false;
-            $view->config->show_tag_cloud = false;
-
-            if ($view->getViewDataTableId() == Treemap::ID) {
-                // for some actions reports, use all available space
-                if (in_array($method, self::$fullWidthActionsReports)) {
-                    $view->config->datatable_css_class = 'infoviz-treemap-full-width';
-                    $view->config->max_graph_elements = 50;
-                } else {
-                    $view->config->max_graph_elements = max(10, $view->config->max_graph_elements);
-                }
-            }
-
-        } else if ('ExampleUI' === $module
-                   && Treemap::ID == $view->getViewDataTableId()
+        if ('Actions' === $view->requestConfig->getApiModuleToRequest()
+            && !$view->isViewDataTableType(Treemap::ID)
         ) {
-            $view->config->show_evolution_values = false;
+            $this->makeSureTreemapIsShownOnActionsReports($view);
         }
+    }
+
+    /**
+     * @param ViewDataTable $view
+     */
+    private function makeSureTreemapIsShownOnActionsReports(ViewDataTable $view)
+    {
+        // make sure we're looking at data that the treemap visualization can use (a single datatable)
+        // TODO: this is truly ugly code. need to think up an abstraction that can allow us to describe the
+        $viewDataRequest = new Request($view->requestConfig);
+        $requestArray    = $viewDataRequest->getRequestArray() + $_GET + $_POST;
+        $date   = Common::getRequestVar('date', null, 'string', $requestArray);
+        $period = Common::getRequestVar('period', null, 'string', $requestArray);
+        $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
+        if (Period::isMultiplePeriod($date, $period)
+            || strpos($idSite, ',') !== false
+            || $idSite == 'all'
+        ) {
+            return;
+        }
+
+        $view->config->show_all_views_icons = true;
+        $view->config->show_bar_chart = false;
+        $view->config->show_pie_chart = false;
+        $view->config->show_tag_cloud = false;
     }
 }

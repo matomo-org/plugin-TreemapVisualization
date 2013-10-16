@@ -34,6 +34,20 @@ class Treemap extends Graph
     const FOOTER_ICON_TITLE = 'Treemap';
 
     /**
+     * The list of Actions reports for whom the treemap should have a width of 100%.
+     */
+    private static $fullWidthActionsReports = array(
+        'getPageUrls',
+        'getEntryPageUrls',
+        'getExitPageUrls',
+        'getEntryPageTitles',
+        'getExitPageTitles',
+        'getPageTitles',
+        'getOutlinks',
+        'getDownloads',
+    );
+
+    /**
      * @var TreemapDataGenerator|null
      */
     public $generator;
@@ -58,6 +72,32 @@ class Treemap extends Graph
         $this->config->show_flatten_table = false;
         $this->config->show_pagination_control = false;
         $this->config->show_offset_information = false;
+
+        if ('ExampleUI' == $this->requestConfig->getApiModuleToRequest()) {
+            $this->config->show_evolution_values = false;
+        }
+
+        if ('Actions' === $this->requestConfig->getApiModuleToRequest()) {
+            $this->makeSureTreemapIsShownOnActionsReports();
+        }
+    }
+
+    public function makeSureTreemapIsShownOnActionsReports()
+    {
+        $this->config->show_all_views_icons = true;
+        $this->config->show_bar_chart = false;
+        $this->config->show_pie_chart = false;
+        $this->config->show_tag_cloud = false;
+
+        $method = $this->requestConfig->getApiMethodToRequest();
+
+        // for some actions reports, use all available space
+        if (in_array($method, self::$fullWidthActionsReports)) {
+            $this->config->datatable_css_class = 'infoviz-treemap-full-width';
+            $this->config->max_graph_elements = 50;
+        } else {
+            $this->config->max_graph_elements = max(10, $this->config->max_graph_elements);
+        }
     }
 
     public function beforeLoadDataTable()
