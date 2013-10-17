@@ -35,8 +35,7 @@ class TreemapVisualization extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Visualization.addVisualizations' => 'getAvailableVisualizations',
-            'Visualization.initView'          => 'configureReportViewForActions'
+            'Visualization.addVisualizations' => 'getAvailableVisualizations'
         );
     }
 
@@ -60,37 +59,4 @@ class TreemapVisualization extends \Piwik\Plugin
         $jsFiles[] = 'plugins/TreemapVisualization/javascripts/treemapViz.js';
     }
 
-    public function configureReportViewForActions(ViewDataTable $view)
-    {
-        if ('Actions' === $view->requestConfig->getApiModuleToRequest()
-            && !$view->isViewDataTableType(Treemap::ID)
-        ) {
-            $this->makeSureTreemapIsShownOnActionsReports($view);
-        }
-    }
-
-    /**
-     * @param ViewDataTable $view
-     */
-    private function makeSureTreemapIsShownOnActionsReports(ViewDataTable $view)
-    {
-        // make sure we're looking at data that the treemap visualization can use (a single datatable)
-        // TODO: this is truly ugly code. need to think up an abstraction that can allow us to describe the
-        $viewDataRequest = new Request($view->requestConfig);
-        $requestArray    = $viewDataRequest->getRequestArray() + $_GET + $_POST;
-        $date   = Common::getRequestVar('date', null, 'string', $requestArray);
-        $period = Common::getRequestVar('period', null, 'string', $requestArray);
-        $idSite = Common::getRequestVar('idSite', null, 'string', $requestArray);
-        if (Period::isMultiplePeriod($date, $period)
-            || strpos($idSite, ',') !== false
-            || $idSite == 'all'
-        ) {
-            return;
-        }
-
-        $view->config->show_all_views_icons = true;
-        $view->config->show_bar_chart = false;
-        $view->config->show_pie_chart = false;
-        $view->config->show_tag_cloud = false;
-    }
 }

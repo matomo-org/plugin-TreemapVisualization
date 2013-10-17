@@ -62,9 +62,9 @@ class Treemap extends Graph
         return new TreemapConfig();
     }
 
-    public function configureVisualization()
+    public function beforeRender()
     {
-        parent::configureVisualization();
+        parent::beforeRender();
 
         // we determine the elements count dynamically based on available width/height
         $this->config->max_graph_elements = false;
@@ -84,11 +84,6 @@ class Treemap extends Graph
 
     public function makeSureTreemapIsShownOnActionsReports()
     {
-        $this->config->show_all_views_icons = true;
-        $this->config->show_bar_chart = false;
-        $this->config->show_pie_chart = false;
-        $this->config->show_tag_cloud = false;
-
         $method = $this->requestConfig->getApiMethodToRequest();
 
         // for some actions reports, use all available space
