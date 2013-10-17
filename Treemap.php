@@ -57,7 +57,7 @@ class Treemap extends Graph
      *
      * @return array
      */
-    public function getDefaultConfig()
+    public static function getDefaultConfig()
     {
         return new TreemapConfig();
     }
