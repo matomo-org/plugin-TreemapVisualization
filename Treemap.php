@@ -84,6 +84,11 @@ class Treemap extends Graph
 
     public function makeSureTreemapIsShownOnActionsReports()
     {
+        $this->config->show_all_views_icons = true;
+        $this->config->show_bar_chart = false;
+        $this->config->show_pie_chart = false;
+        $this->config->show_tag_cloud = false;
+
         $method = $this->requestConfig->getApiMethodToRequest();
 
         // for some actions reports, use all available space
