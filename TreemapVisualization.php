@@ -35,8 +35,26 @@ class TreemapVisualization extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Visualization.addVisualizations' => 'getAvailableVisualizations'
+            'Visualization.addVisualizations' => 'getAvailableVisualizations',
+            'ViewDataTable.configure'         => 'configureViewDataTable'
         );
+    }
+
+    public function configureViewDataTable(ViewDataTable $view)
+    {
+        if ('Actions' === $view->requestConfig->getApiModuleToRequest()) {
+            $this->makeSureTreemapIsShownOnActionsReports($view);
+        }
+    }
+
+    public function makeSureTreemapIsShownOnActionsReports(ViewDataTable $view)
+    {
+        if ($view->isRequestingSingleDataTable() || $view->isViewDataTableId(Treemap::ID)) {
+            $view->config->show_all_views_icons = true;
+            $view->config->show_bar_chart = false;
+            $view->config->show_pie_chart = false;
+            $view->config->show_tag_cloud = false;
+        }
     }
 
     public function getAvailableVisualizations(&$visualizations)
