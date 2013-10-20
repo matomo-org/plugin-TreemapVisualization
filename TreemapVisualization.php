@@ -35,7 +35,7 @@ class TreemapVisualization extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Visualization.addVisualizations' => 'getAvailableVisualizations'
+            'ViewDataTable.addViewDataTable'  => 'getAvailableVisualizations'
         );
     }
 
