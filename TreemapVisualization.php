@@ -55,7 +55,7 @@ class TreemapVisualization extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = 'libs/Jit/jit-2.0.1-yc.js';
+        $jsFiles[] = 'plugins/TreemapVisualization/libs/Jit/jit-2.0.1-yc.js';
         $jsFiles[] = 'plugins/TreemapVisualization/javascripts/treemapViz.js';
     }
 
