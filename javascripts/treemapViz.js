@@ -432,7 +432,7 @@
          */
         _loadSubtableNodeChildren: function (node, callback) {
             var ajax = this._getNodeChildrenAjax({
-                idSubtable: node.data.idSubtable,
+                idSubtable: node.data.idSubtable
 
             }, node, callback);
             ajax.send();
@@ -451,7 +451,7 @@
                     apiMethod: self.param.module + '.' + self.props.subtable_controller_action,
                     format: 'json',
                     column: self.param.columns,
-                    show_evolution_values: self.props.show_evolution_values || 0,
+                    show_evolution_values: self.props.show_evolution_values || 0
                 });
 
             // make sure parallel load data requests aren't made
