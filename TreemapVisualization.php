@@ -13,8 +13,6 @@ namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
 use Piwik\Period;
-use Piwik\Plugin\ViewDataTable;
-use Piwik\ViewDataTable\Request;
 
 /**
  * @see plugins/TreemapVisualization/Treemap.php
