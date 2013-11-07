@@ -15,6 +15,10 @@ use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 
+/**
+ * Class API
+ * @method static \Piwik\Plugins\TreemapVisualization\API getInstance()
+ */
 class API extends \Piwik\Plugin\API
 {
     /**
