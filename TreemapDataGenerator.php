@@ -10,6 +10,7 @@
  */
 namespace Piwik\Plugins\TreemapVisualization;
 
+use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable;
@@ -162,7 +163,7 @@ class TreemapDataGenerator
         $pastData = false;
         if ($this->showEvolutionValues) {
             list($pastData, $dataTable) = array_values($dataTable->getDataTables());
-            $this->pastDataDate = $pastData->getMetadata('period')->getLocalizedShortString();
+            $this->pastDataDate = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
         }
 
         // handle extra truncation (only for current data)
