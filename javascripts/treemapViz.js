@@ -178,14 +178,13 @@
             $nodeElement.append($label);
 
             // set node tooltip
+            var tooltip = node.name;
             if (nodeHasUrl) {
-                var tooltip = node.data.metadata.url;
-            } else {
-                var tooltip = node.name;
+                tooltip += ' (' + node.data.metadata.url + ')';
             }
             if (node.data.metadata
                 && node.data.metadata.tooltip
-                ) {
+            ) {
                 tooltip += ' ' + node.data.metadata.tooltip;
             }
             $nodeElement.attr('title', tooltip);
@@ -198,7 +197,7 @@
             // if the node can be clicked into, show a pointer cursor over it
             if (this._canEnterNode(node)
                 || nodeHasUrl
-                ) {
+            ) {
                 $nodeElement.addClass("infoviz-treemap-enterable-node");
             }
         },

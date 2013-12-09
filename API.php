@@ -67,6 +67,10 @@ class API extends \Piwik\Plugin\API
         if ($show_evolution_values) {
             $generator->showEvolutionValues();
         }
+
+        $generator->truncateBasedOnAvailableSpace($dataTable);
+        $dataTable->applyQueuedFilters();
+
         return $generator->generate($dataTable);
     }
 }

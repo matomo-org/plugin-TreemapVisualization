@@ -23,6 +23,9 @@ use Piwik\Piwik;
  */
 class TreemapDataGenerator
 {
+    const DEFAULT_MAX_ELEMENTS = 10;
+    const MIN_NODE_AREA = 400; // 20px * 20px
+
     /**
      * The list of row metadata that should appear in treemap JSON data, if in the row.
      *
@@ -60,6 +63,16 @@ class TreemapDataGenerator
      * @var string
      */
     private $metricTranslation;
+
+    /**
+     * TODO
+     */
+    private $availableWidth;
+
+    /**
+     * TODO
+     */
+    private $availableHeight;
 
     /**
      * Whether to include evolution values in the output JSON.
@@ -117,6 +130,15 @@ class TreemapDataGenerator
     }
 
     /**
+     * TODO
+     */
+    public function setAvailableDimensions($availableWidth, $availableHeight)
+    {
+        $this->availableWidth = $availableWidth;
+        $this->availableHeight = $availableHeight;
+    }
+
+    /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
      *
      * @param \Piwik\DataTable $dataTable
@@ -137,11 +159,54 @@ class TreemapDataGenerator
             $this->pastDataDate = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
         }
 
-        $tableId = Common::getRequestVar('idSubtable', '');
-
         $root = $this->makeNode('treemap-root', $this->rootName);
+
+        $tableId = Common::getRequestVar('idSubtable', '');
         $this->addDataTableToNode($root, $dataTable, $pastData, $tableId, $this->firstRowOffset);
         return $root;
+    }
+
+    /**
+     * Computes the maximum number of elements allowed in the report to display, based on the
+     * available screen width/height, and truncates the report data so the number of rows
+     * will not exceed the max.
+     * 
+     * @param DataTable $dataTable The report data. Must be sorted by the metric to graph.
+     * @param int $availableWidth Available width in pixels.
+     * @param int $availableHeight Available height in pixels.
+     */
+    public function truncateBasedOnAvailableSpace($dataTable)
+    {
+        $truncateAfter = self::DEFAULT_MAX_ELEMENTS - 1;
+        if (is_numeric($this->availableWidth)
+            && is_numeric($this->availableHeight)
+        ) {
+            $totalArea = $this->availableWidth * $this->availableHeight;
+
+            $dataTable->filter('ReplaceColumnNames');
+
+            $metricValues = $dataTable->getColumn($this->metricToGraph);
+            $metricSum = array_sum($metricValues);
+
+            if ($metricSum != 0) {
+                // find the row index in $dataTable for which all rows after it will have treemap
+                // nodes that are too small. this is the row from which we truncate.
+                // Note: $dataTable is sorted at this point, so $metricValues is too
+                $result = 0;
+                foreach ($metricValues as $value) {
+                    $nodeArea = ($totalArea * $value) / $metricSum;
+
+                    if ($nodeArea < self::MIN_NODE_AREA) {
+                        break;
+                    } else {
+                        ++$result;
+                    }
+                }
+                $truncateAfter = $result;
+            }
+        }
+
+        $dataTable->filter('Truncate', array($truncateAfter));
     }
 
     private function addDataTableToNode(&$node, $dataTable, $pastData = false, $tableId = '', $offset = 0)
@@ -177,10 +242,12 @@ class TreemapDataGenerator
         $data['$area'] = $columnValue;
 
         // add metadata
-        foreach (self::$rowMetadataToCopy as $metadataName) {
-            $metadataValue = $row->getMetadata($metadataName);
-            if ($metadataValue !== false) {
-                $data['metadata'][$metadataName] = $metadataValue;
+        if ($rowId !== DataTable::ID_SUMMARY_ROW) {
+            foreach (self::$rowMetadataToCopy as $metadataName) {
+                $metadataValue = $row->getMetadata($metadataName);
+                if ($metadataValue !== false) {
+                    $data['metadata'][$metadataName] = $metadataValue;
+                }
             }
         }
 
