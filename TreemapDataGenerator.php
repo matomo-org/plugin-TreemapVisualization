@@ -65,12 +65,16 @@ class TreemapDataGenerator
     private $metricTranslation;
 
     /**
-     * TODO
+     * The available screen width for the treemap visualization.
+     * 
+     * @var int
      */
     private $availableWidth;
 
     /**
-     * TODO
+     * The available screen height for the treemap visualization.
+     * 
+     * @var int
      */
     private $availableHeight;
 
@@ -130,7 +134,10 @@ class TreemapDataGenerator
     }
 
     /**
-     * TODO
+     * Sets the available screen dimensions for this visualization.
+     * 
+     * @param int $availableWidth The available screen width for the display.
+     * @param int $availableHeight The available screen height for the display.
      */
     public function setAvailableDimensions($availableWidth, $availableHeight)
     {

@@ -37,6 +37,19 @@
             this._bindEventCallbacks(domElem);
 
             var self = this;
+            setTimeout(function () { // use a timeout in case nothing in the DOM has been sized yet
+                self.createJitTreemap(treemapContainer);
+            }, 1);
+        },
+
+        /**
+         * Creates the internal treemap object and renders it.
+         */
+        createJitTreemap: function (treemapContainer) {
+            var treemapContainerId = treemapContainer.attr('id'),
+                domElem = this.$element,
+                self = this;
+
             this.treemap = new $jit.TM.Squarified({
                 injectInto: treemapContainerId,
                 titleHeight: 24,
