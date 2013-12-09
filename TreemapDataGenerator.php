@@ -23,9 +23,6 @@ use Piwik\Piwik;
  */
 class TreemapDataGenerator
 {
-    const DEFAULT_MAX_ELEMENTS = 10;
-    const MIN_NODE_AREA = 400; // 20px * 20px
-
     /**
      * The list of row metadata that should appear in treemap JSON data, if in the row.
      *
@@ -79,20 +76,6 @@ class TreemapDataGenerator
     private $pastDataDate = null;
 
     /**
-     * Holds the available screen width in pixels for the treemap.
-     *
-     * @var int
-     */
-    private $availableWidth = false;
-
-    /**
-     * Holds the available screen height in pixels for the treemap.
-     *
-     * @var int
-     */
-    private $availableHeight = false;
-
-    /**
      * Constructor.
      *
      * @param string $metricToGraph @see self::$metricToGraph
@@ -134,18 +117,6 @@ class TreemapDataGenerator
     }
 
     /**
-     * Sets the available screen width & height for this treemap.
-     *
-     * @param int $availableWidth
-     * @param int $availableHeight
-     */
-    public function setAvailableDimensions($availableWidth, $availableHeight)
-    {
-        $this->availableWidth = $availableWidth;
-        $this->availableHeight = $availableHeight;
-    }
-
-    /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
      *
      * @param \Piwik\DataTable $dataTable
@@ -166,48 +137,11 @@ class TreemapDataGenerator
             $this->pastDataDate = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
         }
 
-        // handle extra truncation (only for current data)
-        $truncateAfter = $this->getDynamicMaxElementCount($dataTable);
-        if ($truncateAfter > 0) {
-            $dataTable->filter('Truncate', array($truncateAfter));
-        }
-
         $tableId = Common::getRequestVar('idSubtable', '');
 
         $root = $this->makeNode('treemap-root', $this->rootName);
         $this->addDataTableToNode($root, $dataTable, $pastData, $tableId, $this->firstRowOffset);
         return $root;
-    }
-
-    private function getDynamicMaxElementCount($dataTable)
-    {
-        if (!is_numeric($this->availableWidth)
-            || !is_numeric($this->availableHeight)
-        ) {
-            return self::DEFAULT_MAX_ELEMENTS - 1;
-        } else {
-            $totalArea = $this->availableWidth * $this->availableHeight;
-
-            $dataTable->filter('ReplaceColumnNames');
-
-            $metricValues = $dataTable->getColumn($this->metricToGraph);
-            $metricSum = array_sum($metricValues);
-
-            // find the row index in $dataTable for which all rows after it will have treemap
-            // nodes that are too small. this is the row from which we truncate.
-            // Note: $dataTable is sorted at this point, so $metricValues is too
-            $result = 0;
-            foreach ($metricValues as $value) {
-                $nodeArea = ($totalArea * $value) / $metricSum;
-
-                if ($nodeArea < self::MIN_NODE_AREA) {
-                    break;
-                } else {
-                    ++$result;
-                }
-            }
-            return $result;
-        }
     }
 
     private function addDataTableToNode(&$node, $dataTable, $pastData = false, $tableId = '', $offset = 0)

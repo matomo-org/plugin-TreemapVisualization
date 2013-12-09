@@ -33,6 +33,9 @@ class Treemap extends Graph
     const FOOTER_ICON       = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
 
+    const DEFAULT_MAX_ELEMENTS = 10;
+    const MIN_NODE_AREA = 400; // 20px * 20px
+
     /**
      * The list of Actions reports for whom the treemap should have a width of 100%.
      */
@@ -105,17 +108,59 @@ class Treemap extends Graph
         $metric      = $this->getMetricToGraph($this->config->columns_to_display);
         $translation = empty($this->config->translations[$metric]) ? $metric : $this->config->translations[$metric];
 
-        $availableWidth  = Common::getRequestVar('availableWidth', false);
-        $availableHeight = Common::getRequestVar('availableHeight', false);
-        $filterOffset    = $this->requestConfig->filter_offset ? : 0;
-
         $this->generator = new TreemapDataGenerator($metric, $translation);
+
+        $filterOffset    = $this->requestConfig->filter_offset ? : 0;
         $this->generator->setInitialRowOffset($filterOffset);
-        $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
 
         $this->assignTemplateVar('generator', $this->generator);
 
         $this->handleShowEvolutionValues();
+    }
+
+    public function afterGenericFiltersAreAppliedToLoadedDataTable()
+    {
+        $metric = $this->getMetricToGraph($this->config->columns_to_display);
+        $truncateAfter = $this->getTruncateIndexBasedOnAvailableSpace($metric);
+        $this->dataTable->filter('Truncate', array($truncateAfter));
+    }
+
+    private function getTruncateIndexBasedOnAvailableSpace($metricToGraph)
+    {
+        $availableWidth  = Common::getRequestVar('availableWidth', false);
+        $availableHeight = Common::getRequestVar('availableHeight', false);
+
+        if (!is_numeric($availableWidth)
+            || !is_numeric($availableHeight)
+        ) {
+            return self::DEFAULT_MAX_ELEMENTS - 1;
+        } else {
+            $totalArea = $availableWidth * $availableHeight;
+
+            $this->dataTable->filter('ReplaceColumnNames');
+
+            $metricValues = $this->dataTable->getColumn($metricToGraph);
+            $metricSum = array_sum($metricValues);
+
+            if ($metricSum == 0) {
+                return self::DEFAULT_MAX_ELEMENTS - 1;
+            }
+
+            // find the row index in $dataTable for which all rows after it will have treemap
+            // nodes that are too small. this is the row from which we truncate.
+            // Note: $dataTable is sorted at this point, so $metricValues is too
+            $result = 0;
+            foreach ($metricValues as $value) {
+                $nodeArea = ($totalArea * $value) / $metricSum;
+
+                if ($nodeArea < self::MIN_NODE_AREA) {
+                    break;
+                } else {
+                    ++$result;
+                }
+            }
+            return $result;
+        }
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
