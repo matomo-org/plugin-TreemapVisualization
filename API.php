@@ -64,7 +64,9 @@ class API extends \Piwik\Plugin\API
         $generator = new TreemapDataGenerator($column, $translation);
         $generator->setInitialRowOffset(Common::getRequestVar('filter_offset', 0, 'int'));
         $generator->setAvailableDimensions($availableWidth, $availableHeight);
-        if ($show_evolution_values) {
+        if ($show_evolution_values
+            && !Common::getRequestVar('idSubtable', false)
+        ) {
             $generator->showEvolutionValues();
         }
 
