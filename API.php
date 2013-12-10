@@ -40,7 +40,9 @@ class API extends \Piwik\Plugin\API
     public function getTreemapData($apiMethod, $column, $period, $date, $availableWidth = false, $availableHeight = false,
                                    $show_evolution_values = false)
     {
-        if ($period == 'range') {
+        if ($period == 'range'
+            || Common::getRequestVar('idSubtable', false)
+        ) {
             $show_evolution_values = false;
         }
 
@@ -64,9 +66,7 @@ class API extends \Piwik\Plugin\API
         $generator = new TreemapDataGenerator($column, $translation);
         $generator->setInitialRowOffset(Common::getRequestVar('filter_offset', 0, 'int'));
         $generator->setAvailableDimensions($availableWidth, $availableHeight);
-        if ($show_evolution_values
-            && !Common::getRequestVar('idSubtable', false)
-        ) {
+        if ($show_evolution_values) {
             $generator->showEvolutionValues();
         }
 
