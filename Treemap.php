@@ -163,9 +163,11 @@ class Treemap extends Graph
 
     private function handleShowEvolutionValues()
     {
-        // evolution values cannot be calculated if range period is used
+        // evolution values cannot be calculated if range period is used or subtable is being loaded
         $period = Common::getRequestVar('period');
-        if ($period == 'range') {
+        if ($period == 'range'
+            || $this->requestConfig->idSubtable
+        ) {
             return;
         }
 
