@@ -3,7 +3,7 @@
     "version": "1.0.6",
     "description": "This Piwik plugin adds a new report visualization: the treemap.",
     "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
-    "license": "GPL-3.0+",
+    "license": "GPL v3+",
     "homepage": "http://piwik.org",
     "require": {
         "piwik": ">=2.0.0",
