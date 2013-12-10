@@ -128,6 +128,8 @@ class Treemap extends Graph
     public function beforeLoadDataTable()
     {
         $this->config->max_graph_elements = false;
+        
+        parent::beforeLoadDataTable();
 
         $metric      = $this->getMetricToGraph($this->config->columns_to_display);
         $translation = empty($this->config->translations[$metric]) ? $metric : $this->config->translations[$metric];
