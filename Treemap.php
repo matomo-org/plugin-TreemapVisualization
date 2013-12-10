@@ -48,6 +48,15 @@ class Treemap extends Graph
     );
 
     /**
+     * The list of Actions reports whose labels are parts of URLs.
+     */
+    private static $actionsUrlReports = array(
+        'getPageUrls',
+        'getEntryPageUrls',
+        'getExitPageUrls'
+    );
+
+    /**
      * @var TreemapDataGenerator|null
      */
     public $generator;
@@ -98,6 +107,21 @@ class Treemap extends Graph
             $this->config->max_graph_elements = 50;
         } else {
             $this->config->max_graph_elements = max(10, $this->config->max_graph_elements);
+        }
+
+        self::configureGeneratorIfActionsUrlReport($this->generator, $method);
+    }
+
+    public static function configureGeneratorIfActionsUrlReport($generator, $method)
+    {
+        if (in_array($method, self::$actionsUrlReports)) {
+            $generator->setLabelFormatter(function ($row, $label) {
+                if ($row->getIdSubDataTable() !== null) {
+                    return $label . '/';
+                } else {
+                    return $label;
+                }
+            });
         }
     }
 

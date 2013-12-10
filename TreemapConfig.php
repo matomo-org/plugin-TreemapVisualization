@@ -23,10 +23,10 @@ class TreemapConfig extends GraphConfig
      * individual metrics, or not. If false, the jqPlot pie graph's series colors are used to
      * randomly color different nodes.
      *
-     * Default Value: true
+     * Default value: true
      */
     public $show_evolution_values = true;
-
+    
     public function __construct()
     {
         parent::__construct();
@@ -40,5 +40,4 @@ class TreemapConfig extends GraphConfig
             'subtable_controller_action'
         ));
     }
-
 }

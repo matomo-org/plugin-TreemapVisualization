@@ -93,6 +93,13 @@ class TreemapDataGenerator
     private $pastDataDate = null;
 
     /**
+     * Callback used to format row labels before they are used in treemap nodes.
+     * 
+     * @var callback
+     */
+    private $labelFormatter = null;
+
+    /**
      * Constructor.
      *
      * @param string $metricToGraph @see self::$metricToGraph
@@ -131,6 +138,16 @@ class TreemapDataGenerator
     public function showEvolutionValues()
     {
         $this->showEvolutionValues = true;
+    }
+
+    /**
+     * Sets the callback used to format row labels before they are used in treemap nodes.
+     * 
+     * @param callback $formatter
+     */
+    public function setLabelFormatter($formatter)
+    {
+        $this->labelFormatter = $formatter;
     }
 
     /**
@@ -239,6 +256,11 @@ class TreemapDataGenerator
     private function makeNodeFromRow($tableId, $rowId, $row, $pastRow)
     {
         $label = $row->getColumn('label');
+        if ($this->labelFormatter) {
+            $formatter = $this->labelFormatter;
+            $label = $formatter($row, $label);
+        }
+
         $columnValue = $row->getColumn($this->metricToGraph) ? : 0;
 
         if ($columnValue == 0) { // avoid issues in JIT w/ 0 $area values

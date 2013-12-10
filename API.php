@@ -73,6 +73,11 @@ class API extends \Piwik\Plugin\API
         $generator->truncateBasedOnAvailableSpace($dataTable);
         $dataTable->applyQueuedFilters();
 
+        list($module, $method) = explode('.', $apiMethod);
+        if ($module == 'Actions') {
+            Treemap::configureGeneratorIfActionsUrlReport($generator, $method);
+        }
+
         return $generator->generate($dataTable);
     }
 }
