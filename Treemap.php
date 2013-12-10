@@ -128,7 +128,7 @@ class Treemap extends Graph
     public function beforeLoadDataTable()
     {
         $this->config->max_graph_elements = false;
-        
+
         parent::beforeLoadDataTable();
 
         $metric      = $this->getMetricToGraph($this->config->columns_to_display);
@@ -144,6 +144,9 @@ class Treemap extends Graph
         $availableWidth  = Common::getRequestVar('availableWidth', false);
         $availableHeight = Common::getRequestVar('availableHeight', false);
         $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
+
+        $this->assignTemplateVar('availableWidth', $availableWidth);
+        $this->assignTemplateVar('availableHeight', $availableHeight);
     }
 
     public function afterGenericFiltersAreAppliedToLoadedDataTable()

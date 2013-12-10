@@ -9,7 +9,18 @@
 
     var exports = require('piwik/UI'),
         DataTable = exports.DataTable,
-        dataTablePrototype = DataTable.prototype;
+        dataTablePrototype = DataTable.prototype,
+
+        fullPageReports = {
+            'Actions.getPageUrls': true,
+            'Actions.getEntryPageUrls': true,
+            'Actions.getExitPageUrls': true,
+            'Actions.getEntryPageTitles': true,
+            'Actions.getExitPageTitles': true,
+            'Actions.getPageTitles': true,
+            'Actions.getOutlinks': true,
+            'Actions.getDownloads': true
+        };
 
     /**
      * Class that handles UI behavior for the treemap visualization.
@@ -551,17 +562,30 @@
         // determine what the width of a treemap will be, by inserting a dummy infoviz-treemap element
         // into the DOM
         var $wrapper = dataTable.$element.find('.dataTableWrapper'),
+            $reportHeader = dataTable._findReportHeader(dataTable.$element),
             $dummyTreemap = $('<div/>').addClass('infoviz-treemap').css({'visibility': 'hidden', 'position': 'absolute'});
 
         $wrapper.prepend($dummyTreemap);
         var width = $dummyTreemap.width(), height = $dummyTreemap.height();
+
+        var report = dataTable.$element.attr('data-report'),
+            isFullpage = fullPageReports[report];
+        if (isFullpage) {
+            height = $(window).height() - dataTable.$element.find('.dataTableFeatures').height() - $reportHeader.height();
+        }
 
         // send available width & height so we can pick the best number of elements to display
         dataTable.param.availableWidth = width;
         dataTable.param.availableHeight = height;
 
         dataTable.param.viewDataTable = viewDataTableId;
-        dataTable.reloadAjaxDataTable();
+        dataTable.reloadAjaxDataTable(true, function (response) {
+            dataTable.dataTableLoaded(response, dataTable.workingDivId);
+
+            if (isFullpage) {
+                piwikHelper.lazyScrollTo($reportHeader || dataTable.$element, 400, true);
+            }
+        });
         dataTable.notifyWidgetParametersChange(dataTable.$element, {
             viewDataTable: viewDataTableId,
             availableWidth: width,
