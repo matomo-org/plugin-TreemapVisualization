@@ -151,7 +151,7 @@ class Treemap extends Graph
 
     public function afterGenericFiltersAreAppliedToLoadedDataTable()
     {
-        $this->generator->truncateBasedOnAvailableSpace($this->dataTable);
+        $this->generator->truncateBasedOnAvailableSpace($this->getCurrentData($this->dataTable));
     }
 
     public function beforeGenericFiltersAreAppliedToLoadedDataTable()
