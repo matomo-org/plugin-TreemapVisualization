@@ -22,7 +22,8 @@
             'Actions.getDownloads': true
         },
 
-        COLOR_NAMESPACE_NORMAL = 'infoviz-treemap-colors';
+        COLOR_NAMESPACE_NORMAL = 'infoviz-treemap-colors',
+        COLOR_NAMESPACE_EVOLUTION = 'infoviz-treemap-evolution-colors';
 
     /**
      * Class that handles UI behavior for the treemap visualization.
@@ -300,7 +301,7 @@
             // get colors
             var colorManager = piwik.ColorManager;
             var colorNames = ['no-change', 'negative-change-max', 'positive-change-max', 'label'];
-            var colors = colorManager.getColors(COLOR_NAMESPACE_NORMAL, colorNames);
+            var colors = colorManager.getColors(COLOR_NAMESPACE_EVOLUTION, colorNames);
 
             // find min-max evolution values to make colors relative to
             var minEvolution = -100, maxEvolution = 100;
