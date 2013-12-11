@@ -20,7 +20,10 @@
             'Actions.getPageTitles': true,
             'Actions.getOutlinks': true,
             'Actions.getDownloads': true
-        };
+        },
+
+        COLOR_NAMESPACE_NORMAL = 'infoviz-treemap-colors',
+        COLOR_NAMESPACE_EVOLUTION = 'infoviz-treemap-evolution-colors';
 
     /**
      * Class that handles UI behavior for the treemap visualization.
@@ -59,6 +62,7 @@
         createJitTreemap: function (treemapContainer) {
             var treemapContainerId = treemapContainer.attr('id'),
                 domElem = this.$element,
+                headerColor = piwik.ColorManager.getColor(COLOR_NAMESPACE_NORMAL, 'header-background-color'),
                 self = this;
 
             this.treemap = new $jit.TM.Squarified({
@@ -68,6 +72,9 @@
                 offset: 1,
                 levelsToShow: 1,
                 constrained: true,
+                Node: {
+                    color: headerColor,
+                },
                 Events: {
                     enable: true,
                     onClick: function (node, info, event) {
@@ -294,7 +301,7 @@
             // get colors
             var colorManager = piwik.ColorManager;
             var colorNames = ['no-change', 'negative-change-max', 'positive-change-max', 'label'];
-            var colors = colorManager.getColors('infoviz-treemap-evolution-colors', colorNames);
+            var colors = colorManager.getColors(COLOR_NAMESPACE_EVOLUTION, colorNames);
 
             // find min-max evolution values to make colors relative to
             var minEvolution = -100, maxEvolution = 100;
@@ -338,14 +345,9 @@
          * Sets the color of treemap nodes using pie-graph-colors.
          */
         _setTreemapColorsNormal: function (root) {
-            var seriesColorNames = ['series1', 'series2', 'series3', 'series4', 'series5',
-                'series6', 'series7', 'series8', 'series9', 'series10'];
-            var colors = piwik.ColorManager.getColors('pie-graph-colors', seriesColorNames, true);
-
-            var colorIdx = 0;
+            var normalColor = piwik.ColorManager.getColor(COLOR_NAMESPACE_NORMAL, 'normal-node-color');
             this.foreachNode(function (node) {
-                node.data.$color = colors[colorIdx];
-                colorIdx = (colorIdx + 1) % colors.length;
+                node.data.$color = normalColor;
             }, root);
         },
 
@@ -571,7 +573,7 @@
         var report = dataTable.$element.attr('data-report'),
             isFullpage = fullPageReports[report];
         if (isFullpage) {
-            height = $(window).height() - dataTable.$element.find('.dataTableFeatures').height() - $reportHeader.height();
+            height = $(window).height() - dataTable.$element.find('.dataTableFeatures').height() - $reportHeader.height() - 20;
         }
 
         // send available width & height so we can pick the best number of elements to display
