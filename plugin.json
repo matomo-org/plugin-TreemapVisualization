@@ -1,6 +1,6 @@
 {
     "name": "TreemapVisualization",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "This Piwik plugin adds a new report visualization: the treemap.",
     "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
     "license": "GPL v3+",
