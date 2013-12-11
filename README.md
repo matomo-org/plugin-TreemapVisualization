@@ -17,5 +17,5 @@ Each treemap square is colored based on the evolution value **so you can easily 
 * Treemaps will not work with flattened tables. Currently, if a table is flattened, the treemap icon will be removed.
 * Evolution values cannot be calculated for subtables (reports that are displayed when you click on a row or node).
 
-#### Feedback, bug report or requests: 
- https://github.com/piwik/plugin-TreemapVisualization/issues
+#### Feedback, bug report or requests
+ [github.com/piwik/plugin-TreemapVisualization/issues](https://github.com/piwik/plugin-TreemapVisualization/issues)
