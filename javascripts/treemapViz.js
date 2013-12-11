@@ -323,6 +323,8 @@
 
             this.foreachNode(function (node) {
                 var evolution = node.data.evolution || 0;
+                console.log(node.name);
+                console.log(evolution);
 
                 var color;
                 if (evolution < 0) {
@@ -573,7 +575,7 @@
         var report = dataTable.$element.attr('data-report'),
             isFullpage = fullPageReports[report];
         if (isFullpage) {
-            height = $(window).height() - dataTable.$element.find('.dataTableFeatures').height() - $reportHeader.height();
+            height = $(window).height() - dataTable.$element.find('.dataTableFeatures').height() - $reportHeader.height() - 20;
         }
 
         // send available width & height so we can pick the best number of elements to display
