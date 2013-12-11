@@ -323,8 +323,6 @@
 
             this.foreachNode(function (node) {
                 var evolution = node.data.evolution || 0;
-                console.log(node.name);
-                console.log(evolution);
 
                 var color;
                 if (evolution < 0) {
