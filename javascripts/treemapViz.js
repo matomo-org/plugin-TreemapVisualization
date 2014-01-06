@@ -73,7 +73,7 @@
                 levelsToShow: 1,
                 constrained: true,
                 Node: {
-                    color: headerColor,
+                    color: headerColor
                 },
                 Events: {
                     enable: true,
