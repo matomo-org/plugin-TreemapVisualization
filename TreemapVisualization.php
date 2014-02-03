@@ -22,10 +22,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/TreemapVisualization/Treemap.php';
  */
 class TreemapVisualization extends \Piwik\Plugin
 {
-
-    /**
-     * @see Piwik_Plugin::getListHooksRegistered
-     */
     public function getListHooksRegistered()
     {
         return array(
