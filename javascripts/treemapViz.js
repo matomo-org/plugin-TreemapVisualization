@@ -48,6 +48,15 @@
                 return;
             }
 
+            // we need to fix the width/height, otherwise treemap is not displayed in case treemap is the default
+            // visualization for a report eg PageUrls
+            if (!treemapContainer.height() && this.param.availableHeight) {
+                treemapContainer.height(this.param.availableHeight);
+            }
+            if (!treemapContainer.width() && this.param.availableWidth) {
+                treemapContainer.width(this.param.availableWidth);
+            }
+
             this._bindEventCallbacks(domElem);
 
             var self = this;
@@ -144,9 +153,24 @@
             });
 
             this.onWidgetResize(function () {
-                var $treemap = self.$element.find('.infoviz-treemap');
-                self.treemap.canvas.resize($treemap.width(), $treemap.height());
+                self.resize();
             });
+        },
+
+        resize: function () {
+            var $treemap = this.$element.find('.infoviz-treemap');
+            var height = $treemap.height();
+
+            if (!height && this.param.availableHeight) {
+                height = this.param.availableHeight;
+            }
+
+            var width = $treemap.width();
+            if (!width && this.param.availableWidth) {
+                width = this.param.availableWidth;
+            }
+
+            this.treemap.canvas.resize(width, height);
         },
 
         /**
@@ -448,7 +472,13 @@
          * Returns true if node is a child of the root node, false if it represents a subtable row.
          */
         _isFirstLevelNode: function (node) {
-            var parent = node.getParents()[0];
+            var parents = node.getParents();
+
+            if (!parents || !parents.length) {
+                return true;
+            }
+
+            var parent = parents[0];
             return !parent || parent.id.indexOf('treemap-root') != -1;
         },
 
