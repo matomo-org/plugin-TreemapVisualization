@@ -139,8 +139,18 @@ class Treemap extends Graph
 
         $this->handleShowEvolutionValues();
 
-        $availableWidth  = Common::getRequestVar('availableWidth', false);
-        $availableHeight = Common::getRequestVar('availableHeight', false);
+        $availableWidth = false;
+        if (!empty($this->config->custom_parameters['availableWidth'])) {
+            $availableWidth = (int) $this->config->custom_parameters['availableWidth'];
+        }
+
+        $availableHeight = false;
+        if (!empty($this->config->custom_parameters['availableHeight'])) {
+            $availableHeight = (int) $this->config->custom_parameters['availableHeight'];
+        }
+
+        $availableWidth  = Common::getRequestVar('availableWidth', $availableWidth);
+        $availableHeight = Common::getRequestVar('availableHeight', $availableHeight);
         $this->generator->setAvailableDimensions($availableWidth, $availableHeight);
 
         $this->assignTemplateVar('availableWidth', $availableWidth);
