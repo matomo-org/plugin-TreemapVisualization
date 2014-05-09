@@ -11,8 +11,8 @@ namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
 use Piwik\DataTable\Map;
-use Piwik\Period;
 use Piwik\Period\Range;
+use Piwik\Period;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\View;
 
