@@ -11,8 +11,8 @@ namespace Piwik\Plugins\TreemapVisualization;
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
-use Piwik\DataTable\Map;
 use Piwik\DataTable;
+use Piwik\DataTable\Map;
 use Piwik\Piwik;
 
 /**
