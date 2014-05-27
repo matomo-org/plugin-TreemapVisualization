@@ -223,7 +223,7 @@
             if (nodeHasLogo) {
                 leftImage = node.data.metadata.logo;
             } else if (nodeHasUrl) {
-                leftImage = 'plugins/Zeitgeist/images/link.gif';
+                leftImage = 'plugins/Morpheus/images/link.gif';
             }
 
             if (leftImage) {
