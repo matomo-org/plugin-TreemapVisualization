@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/piwik/plugin-TreemapVisualization.svg?branch=master)](https://travis-ci.org/piwik/plugin-TreemapVisualization)
+
 ## Description
 
 TreemapVisualization contains a new report visualization that will display your reports as tiles of different sizes and will show you how each metric has changed from the last period.
