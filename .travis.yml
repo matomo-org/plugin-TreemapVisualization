@@ -15,6 +15,7 @@ env:
   global:
     - PLUGIN_NAME=TreemapVisualization
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
+    - UNPROTECTED_ARTIFACTS=1
     - secure: "otYX4sH3T5ipWDDG75e+3bhTNL6CmXkNbkCNzSaC/HAT24Xr7wTf9F0FYcsh60U8QHZHa7AusLURxcJc972VovLLtHJXyyxXp8jYQEsbCZ6DiMwZB2/tZf8pfU2/IU8xX/QG75ZzEgjhkkYvqxthA/UKrXmvmGezSgBu4PrpNxg="
     - secure: "iT5+UzJg7c5v0BAmR4xSOJ7Vfkc/lYp/hZ/quJ2XDfhVkjtMxwfez9QtrgycQnX342TjzlaVd29pKhVcWT4Ymi3PPuWr6syivs3Ue6U3Nzn9rCKEyeWRiwFVkzEptk2vZPYY7+uutNTNTYwU6a+nl76FUSkRXnYjmgMN7UqpzLg="
   matrix:
