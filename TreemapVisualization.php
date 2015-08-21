@@ -11,11 +11,12 @@ namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
 use Piwik\Period;
+use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
 
 /**
  * @see plugins/TreemapVisualization/Treemap.php
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/TreemapVisualization/Treemap.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/TreemapVisualization/Visualizations/Treemap.php';
 
 /**
  * Plugin that contains the Treemap DataTable visualization.
@@ -27,15 +28,27 @@ class TreemapVisualization extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'ViewDataTable.addViewDataTable'  => 'getAvailableVisualizations'
+            'ViewDataTable.addViewDataTable'  => 'getAvailableVisualizations', // Piwik 2.X
+            'ViewDataTable.filterViewDataTable'  => 'removeTreemapVisualizationIfFlattenIsUsed' // Piwik 3.X
         );
     }
 
     public function getAvailableVisualizations(&$visualizations)
     {
         // treemap doesn't work w/ flat=1
-        if (!Common::getRequestVar('flat', 0)) {
-            $visualizations[] = 'Piwik\\Plugins\\TreemapVisualization\\Treemap';
+        if (Common::getRequestVar('flat', 0)) {
+            $key = array_search('Piwik\\Plugins\\TreemapVisualization\\Visualizations\\Treemap', $visualizations);
+            if ($key !== false) {
+                unset($visualizations[$key]);
+            }
+        }
+    }
+
+    public function removeTreemapVisualizationIfFlattenIsUsed(&$visualizations)
+    {
+        // treemap doesn't work w/ flat=1
+        if (Common::getRequestVar('flat', 0) && isset($visualizations[Treemap::ID])) {
+            unset($visualizations[Treemap::ID]);
         }
     }
 
