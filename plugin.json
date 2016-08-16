@@ -9,6 +9,14 @@
         "piwik": ">=2.4.0-b1,<3.0.0-b1",
         "php": ">=5.3.3"
     },
+    "support": {
+        "email": "hello@piwik.org",
+        "issues": "https://github.com/piwik/plugin-TreemapVisualization/issues",
+        "forum": "https://forum.piwik.org",
+        "source": "https://github.com/piwik/plugin-TreemapVisualization",
+        "docs": "https://piwik.org/docs/",
+        "rss": "https://piwik.org/feed/"
+    },
     "authors": [
         {
             "name": "Piwik",
