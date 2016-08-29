@@ -1,6 +1,6 @@
 {
     "name": "TreemapVisualization",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "Visualise any report in Piwik as a Treemap. Click on the Treemap icon in each report to load the visualisation. ",
     "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
     "license": "GPL v3+",
