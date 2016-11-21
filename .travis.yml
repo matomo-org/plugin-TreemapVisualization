@@ -4,7 +4,7 @@ language: php
 
 php:
   - 5.6
-  - 5.3
+  - 5.5
 #  - hhvm
 
 services:
@@ -27,8 +27,6 @@ env:
   global:
     - PLUGIN_NAME=TreemapVisualization
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
-    - secure: "otYX4sH3T5ipWDDG75e+3bhTNL6CmXkNbkCNzSaC/HAT24Xr7wTf9F0FYcsh60U8QHZHa7AusLURxcJc972VovLLtHJXyyxXp8jYQEsbCZ6DiMwZB2/tZf8pfU2/IU8xX/QG75ZzEgjhkkYvqxthA/UKrXmvmGezSgBu4PrpNxg="
-    - secure: "iT5+UzJg7c5v0BAmR4xSOJ7Vfkc/lYp/hZ/quJ2XDfhVkjtMxwfez9QtrgycQnX342TjzlaVd29pKhVcWT4Ymi3PPuWr6syivs3Ue6U3Nzn9rCKEyeWRiwFVkzEptk2vZPYY7+uutNTNTYwU6a+nl76FUSkRXnYjmgMN7UqpzLg="
     # this variable controls the version of Piwik your tests will run against.
     # by default it will run against the maximum support version read from plugin.json
     # (PIWIK_TEST_TARGET=maximum_supported_piwik).
@@ -41,7 +39,7 @@ env:
 matrix:
   exclude:
     # execute UI tests only w/ PHP 5.6
-    - php: 5.3.3
+    - php: 5.5
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_TEST_TARGET
 
 sudo: required
@@ -132,6 +130,7 @@ before_script:
 
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
+  - if [[ "$TRAVIS_PHP_VERSION" != 5.3* ]]; then ./tests/travis/install_phantomjs.sh; export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH; fi
 
   - cd tests/PHPUnit
 
