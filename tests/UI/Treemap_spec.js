@@ -14,7 +14,7 @@ describe("Treemap", function () {
         urlBase = 'module=CoreHome&action=index&' + generalParams,
         normalUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=DevicesDetection&idSite=1&period=year&date=2012-08-09&"
                   + "actionToWidgetize=getBrowsers&viewDataTable=table&filter_limit=5&isFooterExpandedInDashboard=1",
-        actionsUrl = "?" + urlBase + "#" + generalParams + "&module=Actions&action=menuGetPageUrls"
+        actionsUrl = "?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages"
         ;
 
     it('should load a normal report w/ the treemap visualization correctly', function (done) {
@@ -28,10 +28,9 @@ describe("Treemap", function () {
     });
 
     it('should load an actions report on the actions page w/ the treemap visualization correctly', function (done){
-        expect.screenshot('actions_treemap').to.be.captureSelector('.pageWrap,.expandDataTableFooterDrawer', function (page) {
+        expect.screenshot('actions_treemap').to.be.captureSelector('.pageWrap', function (page) {
             page.load(actionsUrl);
             page.evaluate(function () {
-                $('.expandDataTableFooterDrawer').click();
                 $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
             });
             page.wait(2000);
