@@ -227,7 +227,7 @@
             }
 
             if (leftImage) {
-                $label.prepend($('<img style="height: 16px"></img>').attr('src', leftImage));
+                $label.prepend($('<img style="max-height: 16px"></img>').attr('src', leftImage));
             }
 
             $nodeElement.append($label);
