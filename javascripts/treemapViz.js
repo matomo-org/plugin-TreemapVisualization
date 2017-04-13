@@ -223,11 +223,11 @@
             if (nodeHasLogo) {
                 leftImage = node.data.metadata.logo;
             } else if (nodeHasUrl) {
-                leftImage = 'plugins/Morpheus/images/link.gif';
+                leftImage = 'plugins/Morpheus/images/link.png';
             }
 
             if (leftImage) {
-                $label.prepend($('<img></img>').attr('src', leftImage));
+                $label.prepend($('<img style="max-height: 16px"></img>').attr('src', leftImage));
             }
 
             $nodeElement.append($label);
