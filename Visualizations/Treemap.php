@@ -12,11 +12,9 @@ namespace Piwik\Plugins\TreemapVisualization\Visualizations;
 use Piwik\Common;
 use Piwik\DataTable\Map;
 use Piwik\Period\Range;
-use Piwik\Period;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\TreemapVisualization\TreemapConfig;
 use Piwik\Plugins\TreemapVisualization\TreemapDataGenerator;
-use Piwik\View;
 
 /**
  * DataTable visualization that displays DataTable data as a treemap (see

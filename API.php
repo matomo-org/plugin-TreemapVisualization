@@ -12,6 +12,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Period\Range;
+use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
 
 /**
  * Class API
