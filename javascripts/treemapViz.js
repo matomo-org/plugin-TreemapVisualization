@@ -464,7 +464,7 @@
          * Show/hide the zoom out button based on the currently selected node.
          */
         _toggleZoomOut: function (toggle) {
-            var toggle = toggle || !this._isFirstLevelNode(this.treemap.clickedNode);
+            var toggle = toggle || (this.treemap.clickedNode && !this._isFirstLevelNode(this.treemap.clickedNode));
             $('.infoviz-treemap-zoom-out', this.$element).css('visibility', toggle ? 'visible' : 'hidden');
         },
 
