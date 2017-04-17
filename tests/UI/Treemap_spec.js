@@ -20,7 +20,10 @@ describe("Treemap", function () {
     it('should load a normal report w/ the treemap visualization correctly', function (done) {
         expect.screenshot('normal_treemap').to.be.capture(function (page) {
             page.load(normalUrl);
-            page.wait(1000);
+            page.evaluate(function () {
+                $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
+            });
+            page.wait(2000);
         }, done);
     });
 
