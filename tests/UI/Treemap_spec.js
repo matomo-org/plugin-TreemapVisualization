@@ -36,4 +36,11 @@ describe("Treemap", function () {
             page.wait(2000);
         }, done);
     });
+
+    it('should reload the page with treemap visualization correctly', function (done){
+        expect.screenshot('actions_treemap').to.be.captureSelector('.pageWrap', function (page) {
+            page.reload();
+            page.wait(2000);
+        }, done);
+    });
 });

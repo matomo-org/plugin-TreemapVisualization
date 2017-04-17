@@ -29,7 +29,9 @@ class TreemapConfig extends GraphConfig
     {
         parent::__construct();
 
-        $this->setDefaultColumnsToDisplay(array('nb_visits'), false, false);
+        if (empty($this->columns_to_display)) {
+            $this->setDefaultColumnsToDisplay(array('nb_visits'), false, false);
+        }
 
         $this->allow_multi_select_series_picker = false;
 
