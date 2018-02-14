@@ -18,7 +18,7 @@ describe("Treemap", function () {
         ;
 
     it('should load a normal report w/ the treemap visualization correctly', function (done) {
-        expect.screenshot('normal_treemap').to.be.capture(function (page) {
+        expect.screenshot('normal_treemap').to.be.capture('.pageWrap', function (page) {
             page.load(normalUrl);
             page.evaluate(function () {
                 $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
@@ -28,7 +28,7 @@ describe("Treemap", function () {
     });
 
     it('should load a report directly as treemap visualization correctly', function (done) {
-        expect.screenshot('initial_treemap').to.be.capture(function (page) {
+        expect.screenshot('initial_treemap').to.be.capture('.pageWrap', function (page) {
             page.load(normalUrl + "&viewDataTable=infoviz-treemap");
             page.wait(1000);
         }, done);
