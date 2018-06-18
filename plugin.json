@@ -1,26 +1,26 @@
 {
     "name": "TreemapVisualization",
-    "version": "3.1.0",
-    "description": "Visualise any report in Piwik as a Treemap. Click on the Treemap icon in each report to load the visualisation. ",
+    "version": "3.1.1",
+    "description": "Visualise any report in Matomo as a Treemap. Click on the Treemap icon in each report to load the visualisation. ",
     "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
     "license": "GPL v3+",
-    "homepage": "http://piwik.org",
+    "homepage": "https://matomo.org",
     "require": {
         "piwik": ">=3.1.2-b2,<4.0.0-b1"
     },
     "support": {
-        "email": "hello@piwik.org",
-        "issues": "https://github.com/piwik/plugin-TreemapVisualization/issues",
-        "forum": "https://forum.piwik.org",
-        "source": "https://github.com/piwik/plugin-TreemapVisualization",
-        "docs": "https://piwik.org/docs/",
-        "rss": "https://piwik.org/feed/"
+        "email": "hello@matomo.org",
+        "issues": "https://github.com/matomo-org/plugin-TreemapVisualization/issues",
+        "forum": "https://forum.matomo.org",
+        "source": "https://github.com/matomo-org/plugin-TreemapVisualization",
+        "docs": "https://matomo.org/docs/",
+        "rss": "https://matomo.org/feed/"
     },
     "authors": [
         {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "http://piwik.org"
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
         }
     ]
 }
