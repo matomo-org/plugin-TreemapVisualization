@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/piwik/plugin-TreemapVisualization.svg?branch=master)](https://travis-ci.org/piwik/plugin-TreemapVisualization)
+[![Build Status](https://travis-ci.org/matomo-org/plugin-TreemapVisualization.svg?branch=master)](https://travis-ci.org/matomo-org/plugin-TreemapVisualization)
 
 ## Description
 
@@ -10,7 +10,7 @@ If you're looking at the visits in a report, the row with the most visits will t
 
 #### Treemap colors for comparison with previous period
 
-The treemap visualization will also show you one thing that no other visualization included with Piwik does: the **evolution** of each row. Hovering over a treemap square will show you how much the row changed from the last period (ie, the last day, week, etc.).
+The treemap visualization will also show you one thing that no other visualization included with Matomo does: the **evolution** of each row. Hovering over a treemap square will show you how much the row changed from the last period (ie, the last day, week, etc.).
 
 Each treemap square is colored based on the evolution value **so you can easily see how your data is changing**. A red square means the change is negative; a green square means the change is positive. The more green the bigger the change; the more red the smaller the change.
 
@@ -20,4 +20,4 @@ Each treemap square is colored based on the evolution value **so you can easily 
 * Evolution values cannot be calculated for subtables (reports that are displayed when you click on a row or node).
 
 #### Feedback, bug report or requests
- [github.com/piwik/plugin-TreemapVisualization/issues](https://github.com/piwik/plugin-TreemapVisualization/issues)
+ [github.com/matono-org/plugin-TreemapVisualization/issues](https://github.com/matomo-org/plugin-TreemapVisualization/issues)
