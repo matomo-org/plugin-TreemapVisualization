@@ -35,6 +35,7 @@ describe("Treemap", function () {
     });
 
     it('should load an actions report on the actions page w/ the treemap visualization correctly', function (done){
+        this.retries(3);
         expect.screenshot('actions_treemap').to.be.captureSelector('.pageWrap', function (page) {
             page.load(actionsUrl);
             page.evaluate(function () {
