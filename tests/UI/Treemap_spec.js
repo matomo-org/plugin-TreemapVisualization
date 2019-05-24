@@ -17,31 +17,29 @@ describe("Treemap", function () {
         actionsUrl = "?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages"
         ;
 
-    it('should load a normal report w/ the treemap visualization correctly', function (done) {
-        expect.screenshot('normal_treemap').to.be.capture(function (page) {
-            page.load(normalUrl);
-            page.evaluate(function () {
-                $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
-            });
-            page.wait(2000);
-        }, done);
+    it('should load a normal report w/ the treemap visualization correctly', async function () {
+        await page.goto(normalUrl);
+        await page.evaluate(function () {
+            $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(1000);
+        expect(await page.screenshotSelector('.widget')).to.matchImage('normal_treemap');
     });
 
-    it('should load a report directly as treemap visualization correctly', function (done) {
-        expect.screenshot('initial_treemap').to.be.capture(function (page) {
-            page.load(normalUrl + "&viewDataTable=infoviz-treemap");
-            page.wait(1000);
-        }, done);
+    it('should load a report directly as treemap visualization correctly', async function () {
+        await page.goto(normalUrl + "&viewDataTable=infoviz-treemap");
+        await page.waitFor(1000);
+        expect(await page.screenshotSelector('.widget')).to.matchImage('initial_treemap');
     });
 
-    it('should load an actions report on the actions page w/ the treemap visualization correctly', function (done){
-        this.retries(3);
-        expect.screenshot('actions_treemap').to.be.captureSelector('.pageWrap', function (page) {
-            page.load(actionsUrl);
-            page.evaluate(function () {
-                $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
-            });
-            page.wait(2000);
-        }, done);
+    it('should load an actions report on the actions page w/ the treemap visualization correctly', async function (){
+        await page.goto(actionsUrl);
+        await page.evaluate(function () {
+            $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
+        });
+        await page.waitForNetworkIdle();
+        await page.waitFor(1000);
+        expect(await page.screenshotSelector('.pageWrap')).to.matchImage('actions_treemap');
     });
 });
