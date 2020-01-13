@@ -23,7 +23,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/TreemapVisualization/Visualizations/
  */
 class TreemapVisualization extends \Piwik\Plugin
 {
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
