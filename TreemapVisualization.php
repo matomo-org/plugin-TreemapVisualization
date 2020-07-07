@@ -14,11 +14,6 @@ use Piwik\Period;
 use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
 
 /**
- * @see plugins/TreemapVisualization/Treemap.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/TreemapVisualization/Visualizations/Treemap.php';
-
-/**
  * Plugin that contains the Treemap DataTable visualization.
  */
 class TreemapVisualization extends \Piwik\Plugin
