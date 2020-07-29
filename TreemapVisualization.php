@@ -2,7 +2,7 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Common;
-use Piwik\Period;
 use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
 
 /**
@@ -21,10 +20,10 @@ class TreemapVisualization extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'ViewDataTable.addViewDataTable'  => 'getAvailableVisualizations', // Piwik 2.X
-            'ViewDataTable.filterViewDataTable'  => 'removeTreemapVisualizationIfFlattenIsUsed' // Piwik 3.X
+            'AssetManager.getStylesheetFiles'   => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'   => 'getJsFiles',
+            'ViewDataTable.addViewDataTable'    => 'getAvailableVisualizations', // Piwik 2.X
+            'ViewDataTable.filterViewDataTable' => 'removeTreemapVisualizationIfFlattenIsUsed' // Piwik 3.X
         );
     }
 

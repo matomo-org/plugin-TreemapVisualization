@@ -2,17 +2,18 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\TreemapVisualization;
 
 use Piwik\Archive\DataTableFactory;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Map;
-use Piwik\DataTable;
 use Piwik\Piwik;
 
 /**
@@ -64,14 +65,14 @@ class TreemapDataGenerator
 
     /**
      * The available screen width for the treemap visualization.
-     * 
+     *
      * @var int
      */
     private $availableWidth;
 
     /**
      * The available screen height for the treemap visualization.
-     * 
+     *
      * @var int
      */
     private $availableHeight;
@@ -92,7 +93,7 @@ class TreemapDataGenerator
 
     /**
      * Callback used to format row labels before they are used in treemap nodes.
-     * 
+     *
      * @var callback
      */
     private $labelFormatter = null;
@@ -105,7 +106,7 @@ class TreemapDataGenerator
      */
     public function __construct($metricToGraph, $metricTranslation)
     {
-        $this->metricToGraph = $metricToGraph;
+        $this->metricToGraph     = $metricToGraph;
         $this->metricTranslation = $metricTranslation;
     }
 
@@ -140,7 +141,7 @@ class TreemapDataGenerator
 
     /**
      * Sets the callback used to format row labels before they are used in treemap nodes.
-     * 
+     *
      * @param callback $formatter
      */
     public function setLabelFormatter($formatter)
@@ -150,13 +151,13 @@ class TreemapDataGenerator
 
     /**
      * Sets the available screen dimensions for this visualization.
-     * 
-     * @param int $availableWidth The available screen width for the display.
+     *
+     * @param int $availableWidth  The available screen width for the display.
      * @param int $availableHeight The available screen height for the display.
      */
     public function setAvailableDimensions($availableWidth, $availableHeight)
     {
-        $this->availableWidth = $availableWidth;
+        $this->availableWidth  = $availableWidth;
         $this->availableHeight = $availableHeight;
     }
 
@@ -177,9 +178,9 @@ class TreemapDataGenerator
         // if showEvolutionValues is true, $dataTable must be a DataTable\Map w/ two child tables
         $pastData = false;
         if ($this->showEvolutionValues) {
-            $pastData = $dataTable->getFirstRow();
+            $pastData  = $dataTable->getFirstRow();
             $dataTable = $dataTable->getLastRow();
-            
+
             $this->pastDataDate = $pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedShortString();
         }
 
@@ -194,10 +195,10 @@ class TreemapDataGenerator
      * Computes the maximum number of elements allowed in the report to display, based on the
      * available screen width/height, and truncates the report data so the number of rows
      * will not exceed the max.
-     * 
-     * @param DataTable $dataTable The report data. Must be sorted by the metric to graph.
-     * @param int $availableWidth Available width in pixels.
-     * @param int $availableHeight Available height in pixels.
+     *
+     * @param DataTable $dataTable       The report data. Must be sorted by the metric to graph.
+     * @param int       $availableWidth  Available width in pixels.
+     * @param int       $availableHeight Available height in pixels.
      */
     public function truncateBasedOnAvailableSpace($dataTable)
     {
@@ -210,7 +211,7 @@ class TreemapDataGenerator
             $dataTable->filter('ReplaceColumnNames');
 
             $metricValues = $dataTable->getColumn($this->metricToGraph);
-            $metricSum = array_sum($metricValues);
+            $metricSum    = array_sum($metricValues);
 
             if ($metricSum != 0) {
                 // find the row index in $dataTable for which all rows after it will have treemap
@@ -258,16 +259,16 @@ class TreemapDataGenerator
         $label = $row->getColumn('label');
         if ($this->labelFormatter) {
             $formatter = $this->labelFormatter;
-            $label = $formatter($row, $label);
+            $label     = $formatter($row, $label);
         }
 
-        $columnValue = $row->getColumn($this->metricToGraph) ? : 0;
+        $columnValue = $row->getColumn($this->metricToGraph) ?: 0;
 
         if ($columnValue == 0) { // avoid issues in JIT w/ 0 $area values
             return false;
         }
 
-        $data = array();
+        $data          = array();
         $data['$area'] = $columnValue;
 
         // add metadata
@@ -287,7 +288,7 @@ class TreemapDataGenerator
             if ($pastRow === false) {
                 $data['evolution'] = 100;
             } else {
-                $pastValue = $pastRow->getColumn($this->metricToGraph) ? : 0;
+                $pastValue         = $pastRow->getColumn($this->metricToGraph) ?: 0;
                 $data['evolution'] = CalculateEvolutionFilter::calculate(
                     $columnValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = false);
             }
@@ -296,13 +297,13 @@ class TreemapDataGenerator
         // add node tooltip
         $data['metadata']['tooltip'] = "\n" . $columnValue . ' ' . $this->metricTranslation;
         if (isset($data['evolution'])) {
-            $plusOrMinus = $data['evolution'] >= 0 ? '+' : '-';
+            $plusOrMinus     = $data['evolution'] >= 0 ? '+' : '-';
             $evolutionChange = $plusOrMinus . abs($data['evolution']) . '%';
 
             $data['metadata']['tooltip'] = Piwik::translate('General_XComparedToY', array(
-                                                                                        $data['metadata']['tooltip'] . "\n" . $evolutionChange,
-                                                                                        $this->pastDataDate
-                                                                                   ));
+                $data['metadata']['tooltip'] . "\n" . $evolutionChange,
+                $this->pastDataDate
+            ));
         }
 
         return $this->makeNode($this->getNodeId($tableId, $rowId), $label, $data);

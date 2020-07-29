@@ -2,7 +2,7 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -24,7 +24,7 @@ class TreemapConfig extends GraphConfig
      * Default value: true
      */
     public $show_evolution_values = true;
-    
+
     public function __construct()
     {
         parent::__construct();

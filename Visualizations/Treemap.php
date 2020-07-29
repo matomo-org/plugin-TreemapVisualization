@@ -2,7 +2,7 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
@@ -27,8 +27,8 @@ use Piwik\Plugins\TreemapVisualization\TreemapDataGenerator;
 class Treemap extends Graph
 {
     const ID = 'infoviz-treemap';
-    const TEMPLATE_FILE     = '@TreemapVisualization/_dataTableViz_treemap.twig';
-    const FOOTER_ICON       = 'plugins/TreemapVisualization/images/treemap-icon.png';
+    const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
+    const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
     const FOOTER_ICON_TITLE = 'Treemap';
 
     /**
@@ -62,7 +62,7 @@ class Treemap extends Graph
     /**
      * Returns the default view property values for this visualization.
      *
-     * @return array
+     * @return TreemapConfig
      */
     public static function getDefaultConfig()
     {
@@ -74,8 +74,8 @@ class Treemap extends Graph
         parent::beforeRender();
 
         // we determine the elements count dynamically based on available width/height
-        $this->config->datatable_js_type  = 'TreemapDataTable';
-        $this->config->show_flatten_table = false;
+        $this->config->datatable_js_type       = 'TreemapDataTable';
+        $this->config->show_flatten_table      = false;
         $this->config->show_pagination_control = false;
         $this->config->show_offset_information = false;
 
@@ -93,16 +93,16 @@ class Treemap extends Graph
     public function configureForActionsReports()
     {
         $this->config->show_all_views_icons = true;
-        $this->config->show_bar_chart = false;
-        $this->config->show_pie_chart = false;
-        $this->config->show_tag_cloud = false;
+        $this->config->show_bar_chart       = false;
+        $this->config->show_pie_chart       = false;
+        $this->config->show_tag_cloud       = false;
 
         $method = $this->requestConfig->getApiMethodToRequest();
 
         // for some actions reports, use all available space
         if (in_array($method, self::$fullWidthActionsReports)) {
             $this->config->datatable_css_class = 'infoviz-treemap-full-width';
-            $this->config->max_graph_elements = 50;
+            $this->config->max_graph_elements  = 50;
         } else {
             $this->config->max_graph_elements = max(10, $this->config->max_graph_elements);
         }
@@ -134,19 +134,19 @@ class Treemap extends Graph
 
         $this->generator = new TreemapDataGenerator($metric, $translation);
 
-        $filterOffset    = $this->requestConfig->filter_offset ? : 0;
+        $filterOffset = $this->requestConfig->filter_offset ?: 0;
         $this->generator->setInitialRowOffset($filterOffset);
 
         $this->handleShowEvolutionValues();
 
         $availableWidth = false;
         if (!empty($this->config->custom_parameters['availableWidth'])) {
-            $availableWidth = (int) $this->config->custom_parameters['availableWidth'];
+            $availableWidth = (int)$this->config->custom_parameters['availableWidth'];
         }
 
         $availableHeight = false;
         if (!empty($this->config->custom_parameters['availableHeight'])) {
-            $availableHeight = (int) $this->config->custom_parameters['availableHeight'];
+            $availableHeight = (int)$this->config->custom_parameters['availableHeight'];
         }
 
         $availableWidth  = Common::getRequestVar('availableWidth', $availableWidth);
