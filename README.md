@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/matomo-org/plugin-TreemapVisualization.svg?branch=4.x-dev)](https://travis-ci.org/matomo-org/plugin-TreemapVisualization)
+[![Build Status](https://travis-ci.com/matomo-org/plugin-TreemapVisualization.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/plugin-TreemapVisualization)
 
 ## Description
 
