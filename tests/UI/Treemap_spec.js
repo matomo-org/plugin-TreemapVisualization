@@ -23,13 +23,13 @@ describe("Treemap", function () {
             $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         expect(await page.screenshotSelector('.widget')).to.matchImage('normal_treemap');
     });
 
     it('should load a report directly as treemap visualization correctly', async function () {
         await page.goto(normalUrl + "&viewDataTable=infoviz-treemap");
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         expect(await page.screenshotSelector('.widget')).to.matchImage('initial_treemap');
     });
 
@@ -39,7 +39,7 @@ describe("Treemap", function () {
             $('.tableIcon[data-footer-icon-id=infoviz-treemap]').click();
         });
         await page.waitForNetworkIdle();
-        await page.waitFor(1000);
+        await page.waitForTimeout(1000);
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('actions_treemap');
     });
 });
