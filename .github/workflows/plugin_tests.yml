@@ -25,7 +25,7 @@ jobs:
   PluginTests:
     runs-on: ubuntu-20.04
     env:
-      TARGET_BRANCH: github-aciton
+      TARGET_BRANCH: github-aciton-2
       PLUGIN: TreemapVisualization
     services:
       redis:
