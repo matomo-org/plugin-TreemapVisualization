@@ -1,7 +1,7 @@
 {
     "name": "TreemapVisualization",
     "version": "4.0.1",
-    "description": "Visualise any report in Matomo as a Treemap. Click on the Treemap icon in each report to load the visualisation. ",
+    "description": "Visualise any report in Matomo as a Treemap. Click on the Treemap icon in each report to load the visualisation.",
     "keywords": ["treemap", "graph", "visualization", "infovis", "jit"],
     "license": "GPL v3+",
     "homepage": "https://matomo.org",

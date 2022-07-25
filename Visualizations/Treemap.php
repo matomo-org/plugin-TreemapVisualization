@@ -29,7 +29,7 @@ class Treemap extends Graph
     const ID = 'infoviz-treemap';
     const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
     const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
-    const FOOTER_ICON_TITLE = 'Treemap';
+    const FOOTER_ICON_TITLE = 'TreemapVisualization_Treemap';
 
     /**
      * The list of Actions reports for whom the treemap should have a width of 100%.
