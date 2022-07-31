@@ -1,0 +1,6 @@
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Визуализирайте всеки отчет в Matomo като Treemap. Кликнете върху иконата Treemap във всеки отчет, за да заредите визуализацията.",
+        "Treemap": "Дървовидна карта"
+    }
+}
