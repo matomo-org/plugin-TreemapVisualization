@@ -1,0 +1,6 @@
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Visualitza qualsevol informe a Matomo com un mapa d'arbre. Feu clic a la icona del mapa d'arbre de cada informe per carregar la visualització.",
+        "Treemap": "Mapa d'arbre"
+    }
+}
