@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Visualizza qualsiasi report in Matomo come mappa ad albero. Clicca sull'icona della mappa ad albero in ciascun report per caricarne la visualizzazione.",
+        "Treemap": "Mappa ad albero"
+    }
+}
