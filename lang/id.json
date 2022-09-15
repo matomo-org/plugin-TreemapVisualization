@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Memvisualisasikan laporan apa pun di Matomo sebagai Peta Hierarki. Klik ikon Peta Hierarki di setiap laporan untuk memuat visualisasi.",
+        "Treemap": "Peta Hierarki"
+    }
+}
