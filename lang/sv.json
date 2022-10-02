@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Visualisera alla rapporter i Matomo som en trädkarta. Klicka på Treemap-ikonen i varje rapport för att ladda visualiseringen.",
+        "Treemap": "Trädkarta"
+    }
+}
