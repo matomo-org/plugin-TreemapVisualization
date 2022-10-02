@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Visualiseer elk rapport in Matomo als een Treemap. Klik in elk rapport op het Treemap-pictogram om de visualisatie te laden.",
+        "Treemap": "Boomdiagram"
+    }
+}
