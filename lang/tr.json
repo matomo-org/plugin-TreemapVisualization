@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Matomo üzerindeki herhangi bir raporu ağaç biçiminde görselleştirin. Görselleştirmeyi yüklemek için her rapordaki Ağaç simgesine tıklayabilirsiniz.",
+        "Treemap": "Ağaç"
+    }
+}
