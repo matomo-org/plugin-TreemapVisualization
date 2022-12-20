@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Matomo의 모든 보고서를 트리맵으로 시각화합니다. 각 보고서에서 트리맵 아이콘을 클릭하여 비주얼리제이션을 불러옵니다.",
+        "Treemap": "트리맵"
+    }
+}

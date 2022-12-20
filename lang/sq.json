@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Shfaqeni çfarëdo raporti në Matomo në trajtën e një peme. Klikoni mbi ikonën e Pemës te secili raport që të ngarkohet ajo paraqitje.",
+        "Treemap": "Pemë"
+    }
+}
