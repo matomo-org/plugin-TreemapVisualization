@@ -1,6 +1,6 @@
 {
     "TreemapVisualization": {
         "PluginDescription": "Visualisieren Sie jeden Bericht in Matomo als Treemap. Klicken Sie auf das Treemap-Symbol in einem Bericht, um die Visualisierung zu laden.",
-        "Treemap": "Treemap"
+        "Treemap": "Verzeichnisbaum"
     }
 }
