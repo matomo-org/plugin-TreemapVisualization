@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/matomo-org/plugin-TreemapVisualization.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/plugin-TreemapVisualization)
+[![Build Status](https://github.com/matomo-org/plugin-TreemapVisualization/actions/workflows/matomo-tests.yml/badge.svg?branch=4.x-dev)](https://github.com/matomo-org/plugin-TreemapVisualization/actions/workflows/matomo-tests.yml)
 
 ## Description
 
