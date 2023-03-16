@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Matomo のレポートをツリーマップとして視覚化します。 各レポートのツリーマップ アイコンをクリックして、視覚化を読み込みます。",
+        "Treemap": "ツリーマップ"
+    }
+}

@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "在 Matomo 中以樹狀圖視覺化任何報表。在報表中點擊樹狀圖圖示，來載入此視覺化圖。",
+        "Treemap": "樹狀圖"
+    }
+}
