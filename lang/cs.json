@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Vizualizujte libovolnou sestavu v aplikaci Matomo jako mapu stromů. Kliknutím na ikonu mapy stromů v každé sestavě načtete vizualizaci.",
+        "Treemap": "Mapa stromů"
+    }
+}
