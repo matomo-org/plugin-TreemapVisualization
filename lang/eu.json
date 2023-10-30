@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Bistaratu Matomoko edozein txosten laukizuzen moduko diagrama bezala. Egin klik txosten bakoitzeko Laukizuzen modukoa ikonoan bisualizazioa kargatzeko.",
+        "Treemap": "Laukizuzen modukoa"
+    }
+}
