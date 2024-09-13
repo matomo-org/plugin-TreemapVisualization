@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Vizualizējiet jebkuru Matomo ziņojumu kā koku diagrammu. Klikšķiet uz koku diagrammas ikonas katrā ziņojumā, lai ielādētu vizualizāciju.",
+        "Treemap": "Koku diagramma"
+    }
+}
