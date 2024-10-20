@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -38,10 +39,17 @@ class API extends \Piwik\Plugin\API
      *
      * @return array
      */
-    public function getTreemapData($apiMethod, $column, $period, $date, $availableWidth = false, $availableHeight = false,
-                                   $show_evolution_values = false)
-    {
-        if ($period == 'range'
+    public function getTreemapData(
+        $apiMethod,
+        $column,
+        $period,
+        $date,
+        $availableWidth = false,
+        $availableHeight = false,
+        $show_evolution_values = false
+    ) {
+        if (
+            $period == 'range'
             || Common::getRequestVar('idSubtable', false)
         ) {
             $show_evolution_values = false;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -22,8 +23,8 @@ use Piwik\Piwik;
  */
 class TreemapDataGenerator
 {
-    const DEFAULT_MAX_ELEMENTS = 10;
-    const MIN_NODE_AREA = 400; // 20px * 20px
+    public const DEFAULT_MAX_ELEMENTS = 10;
+    public const MIN_NODE_AREA = 400; // 20px * 20px
 
     /**
      * The list of row metadata that should appear in treemap JSON data, if in the row.
@@ -203,7 +204,8 @@ class TreemapDataGenerator
     public function truncateBasedOnAvailableSpace($dataTable)
     {
         $truncateAfter = self::DEFAULT_MAX_ELEMENTS - 1;
-        if (is_numeric($this->availableWidth)
+        if (
+            is_numeric($this->availableWidth)
             && is_numeric($this->availableHeight)
         ) {
             $totalArea = $this->availableWidth * $this->availableHeight;
@@ -246,7 +248,7 @@ class TreemapDataGenerator
 
             if ($rowId == DataTable::ID_SUMMARY_ROW) {
                 $childNode['data']['aggregate_offset'] = $offset + $dataTable->getRowsCount() - 1;
-            } else if ($row->getIdSubDataTable() !== null) {
+            } elseif ($row->getIdSubDataTable() !== null) {
                 $childNode['data']['idSubtable'] = $row->getIdSubDataTable();
             }
 
@@ -282,7 +284,8 @@ class TreemapDataGenerator
         }
 
         // add evolution
-        if ($rowId !== DataTable::ID_SUMMARY_ROW
+        if (
+            $rowId !== DataTable::ID_SUMMARY_ROW
             && $this->showEvolutionValues
         ) {
             if ($pastRow === false) {
@@ -290,7 +293,11 @@ class TreemapDataGenerator
             } else {
                 $pastValue         = $pastRow->getColumn($this->metricToGraph) ?: 0;
                 $data['evolution'] = CalculateEvolutionFilter::calculate(
-                    $columnValue, $pastValue, $quotientPrecision = 0, $appendPercentSign = false);
+                    $columnValue,
+                    $pastValue,
+                    $quotientPrecision = 0,
+                    $appendPercentSign = false
+                );
             }
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -26,10 +27,10 @@ use Piwik\Plugins\TreemapVisualization\TreemapDataGenerator;
  */
 class Treemap extends Graph
 {
-    const ID = 'infoviz-treemap';
-    const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
-    const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
-    const FOOTER_ICON_TITLE = 'TreemapVisualization_Treemap';
+    public const ID = 'infoviz-treemap';
+    public const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
+    public const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
+    public const FOOTER_ICON_TITLE = 'TreemapVisualization_Treemap';
 
     /**
      * The list of Actions reports for whom the treemap should have a width of 100%.
@@ -202,7 +203,8 @@ class Treemap extends Graph
     {
         // evolution values cannot be calculated if range period is used or subtable is being loaded
         $period = Common::getRequestVar('period');
-        if ($period == 'range'
+        if (
+            $period == 'range'
             || $this->requestConfig->idSubtable
         ) {
             return;
