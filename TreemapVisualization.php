@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -57,5 +58,4 @@ class TreemapVisualization extends \Piwik\Plugin
         $jsFiles[] = 'plugins/TreemapVisualization/libs/Jit/jit-2.0.1-yc.js';
         $jsFiles[] = 'plugins/TreemapVisualization/javascripts/treemapViz.js';
     }
-
 }
