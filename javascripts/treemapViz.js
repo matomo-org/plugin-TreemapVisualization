@@ -268,7 +268,7 @@
         },
 
         /**
-         * Prepares data obtained from Piwik server-side code to be used w/ the JIT Treemap
+         * Prepares data obtained from Matomo server-side code to be used w/ the JIT Treemap
          * visualization. Will make sure each node ID is unique and has a color.
          */
         _prepareTreemapData: function (data) {

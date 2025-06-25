@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.4 - 2025-07-07
+- Textual changes
+
 # 5.0.3 - 2025-01-20
 - Added code to allow calling Treemap API only directly
 
