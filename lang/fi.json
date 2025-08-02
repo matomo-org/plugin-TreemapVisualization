@@ -1,1 +1,5 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Visualisoi mikä tahansa raportti Matomossa Treemap-muodossa. Lataa visualisointi napsauttamalla kunkin raportin Treemap-kuvaketta."
+    }
+}
