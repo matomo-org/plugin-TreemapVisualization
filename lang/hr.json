@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "PluginDescription": "Vizualiziraj bilo koje izvještaj u Matomu kao hijerarhijsku kartu (Treemap). Klikni na ikonu Treemap u svakom izvještaju kako biste učitali vizualizaciju.",
+        "Treemap": "Treemap"
+    }
+}
