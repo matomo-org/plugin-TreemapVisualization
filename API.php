@@ -52,6 +52,12 @@ class API extends \Piwik\Plugin\API
         if (!Request::isCurrentApiRequestTheRootApiRequest()) {
             return [];
         }
+        list($apiName, $apiAction) = explode('.', $apiMethod);
+        $disAllowedApiActions = ['getBulkRequest'];
+        // Block id API action does not start with get
+        if (!in_array($apiAction, $disAllowedApiActions)|| stripos($apiAction, 'get') !== 0) {
+            throw new \Exception('Invalid API method');
+        }
 
         if (
             $period == 'range'
