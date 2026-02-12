@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
 
 /**
@@ -56,7 +57,7 @@ class API extends \Piwik\Plugin\API
         $disAllowedApiActions = ['getBulkRequest'];
         // Block id API action does not start with get
         if (!in_array($apiAction, $disAllowedApiActions)|| stripos($apiAction, 'get') !== 0) {
-            throw new \Exception('Invalid API method');
+            throw new \Exception(Piwik::translate('TreemapVisualization_InvalidApiMethodException'));
         }
 
         if (
