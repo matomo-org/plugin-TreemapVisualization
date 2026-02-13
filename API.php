@@ -57,7 +57,7 @@ class API extends \Piwik\Plugin\API
         list($module, $method) = explode('.', $apiMethod);
         $disAllowedApiActions = ['getBulkRequest'];
         // Block if API action does not start with get
-        if (in_array($method, $disAllowedApiActions) || stripos($method, 'get') !== 0) {
+        if (!$method || in_array(strtolower($method), $disAllowedApiActions) || stripos($method, 'get') !== 0) {
             throw new BadRequestException(Piwik::translate('TreemapVisualization_InvalidApiMethodException'));
         }
 
