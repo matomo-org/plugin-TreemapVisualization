@@ -13,6 +13,7 @@ namespace Piwik\Plugins\TreemapVisualization;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
@@ -53,11 +54,11 @@ class API extends \Piwik\Plugin\API
         if (!Request::isCurrentApiRequestTheRootApiRequest()) {
             return [];
         }
-        list($apiName, $apiAction) = explode('.', $apiMethod);
+        list($module, $method) = explode('.', $apiMethod);
         $disAllowedApiActions = ['getBulkRequest'];
         // Block if API action does not start with get
-        if (!in_array($apiAction, $disAllowedApiActions) || stripos($apiAction, 'get') !== 0) {
-            throw new \Exception(Piwik::translate('TreemapVisualization_InvalidApiMethodException'));
+        if (in_array($method, $disAllowedApiActions) || stripos($method, 'get') !== 0) {
+            throw new BadRequestException(Piwik::translate('TreemapVisualization_InvalidApiMethodException'));
         }
 
         if (
