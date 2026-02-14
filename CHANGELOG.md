@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.5 - 2026-02-16
+- Added validation rules for ApiAction
+
 # 5.0.4 - 2025-07-07
 - Textual changes
 
