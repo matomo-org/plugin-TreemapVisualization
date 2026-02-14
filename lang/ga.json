@@ -1,5 +1,6 @@
 {
     "TreemapVisualization": {
+        "InvalidApiMethodException": "Modh API neamhbhailí.",
         "PluginDescription": "Amharc ar aon tuairisc in Matomo mar Threapchlár. Cliceáil ar an deilbhín Treemap i ngach tuairisc chun an léirshamhlú a luchtú.",
         "Treemap": "Mapa crainn"
     }
