@@ -20,7 +20,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
 
 /**
- * Class API
+ * Provides public API methods for treemap visualization data.
+ *
  * @method static \Piwik\Plugins\TreemapVisualization\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -29,18 +30,24 @@ class API extends \Piwik\Plugin\API
      * Gets report data and converts it into data that can be used with the JavaScript Infovis
      * Toolkit's treemap visualization.
      *
-     * @param string   $apiMethod               The API module & action to call. The result of this method is converted
-     *                                          to data usable by the treemap visualization. E.g.
+     * @param string    $apiMethod              The API module and action to call. The result of this method is
+     *                                          converted to data usable by the treemap visualization. Example:
      *                                          'Actions.getPageUrls'.
-     * @param string   $column                  The column to generate metric data for. If more than one column is
-     *                                          supplied, the first is used and the rest discarded.
-     * @param string   $period
-     * @param string   $date
-     * @param bool     $availableWidth          Available screen width in pixels.
-     * @param bool     $availableHeight         Available screen height in pixels.
-     * @param int|bool $show_evolution_values   Whether to calculate evolution values for each row or not.
+     * @param string    $column                 The metric column to generate treemap data for. If more than one
+     *                                          column is supplied, only the first is used.
+     * @param string    $period                 The period to process, processes data for the period containing the
+     *                                          specified date. Allowed values: "day", "week", "month", "year",
+     *                                          "range".
+     * @param string    $date                   The date or date range to process.
+     *                                          'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                                          lastYear), or date range ('YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param int|false $availableWidth         Available screen width in pixels.
+     * @param int|false $availableHeight        Available screen height in pixels.
+     * @param int|bool  $show_evolution_values  Whether to calculate evolution values for each row.
      *
-     * @return array
+     * @return array<string, mixed> Treemap root node data. Returns an empty array when no DataTable is available.
+     *
+     * @throws BadRequestException If the requested API action is not a supported get* method.
      */
     public function getTreemapData(
         $apiMethod,
