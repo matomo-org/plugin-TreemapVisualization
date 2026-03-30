@@ -1,5 +1,6 @@
 {
     "TreemapVisualization": {
+        "InvalidApiMethodException": "Méthode d'API invalide.",
         "PluginDescription": "Visualisez n'importe quel rapport dans Matomo sous forme de Treemap. Cliquez sur l'icône Treemap dans chaque rapport pour charger la visualisation.",
         "Treemap": "Treemp"
     }
