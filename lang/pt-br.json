@@ -1,6 +1,7 @@
 {
     "TreemapVisualization": {
+        "InvalidApiMethodException": "Método de API inválido.",
         "PluginDescription": "Visualize qualquer relatório no Matomo como um Treemap. Clique no ícone Treemap em cada relatório para carregar a visualização.",
-        "Treemap": "Treemap"
+        "Treemap": "Mapa de árvore"
     }
 }
