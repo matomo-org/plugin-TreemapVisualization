@@ -20,4 +20,4 @@ Each treemap square is colored based on the evolution value **so you can easily 
 * Evolution values cannot be calculated for subtables (reports that are displayed when you click on a row or node).
 
 #### Feedback, bug report or requests
- [github.com/matono-org/plugin-TreemapVisualization/issues](https://github.com/matomo-org/plugin-TreemapVisualization/issues)
+ [github.com/matomo-org/plugin-TreemapVisualization/issues](https://github.com/matomo-org/plugin-TreemapVisualization/issues)
