@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.8 - 2026-08-31
+- Fixed typo in README.md - (Thanks [@Sumit-Sabhaya](https://github.com/Sumit-Sabhaya/)!)
+
 # 5.0.7 - 2026-04-27
 - Updated API documentation
 
