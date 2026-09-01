@@ -1,7 +1,7 @@
 ## Changelog
 
-# 5.0.9 - 2026-09-01
-- Security improvements in treemap node URL handling
+# 5.0.9 - 2026-09-02
+- Improvements in treemap node URL handling
 
 # 5.0.8 - 2026-08-31
 - Fixed typo in README.md - (Thanks [@Sumit-Sabhaya](https://github.com/Sumit-Sabhaya/)!)
