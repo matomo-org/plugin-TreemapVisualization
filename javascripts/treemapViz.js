@@ -416,7 +416,14 @@
                 return;
             }
 
-            var url = window.vueSanitizeUrl(node.data.metadata.url);
+            var url = node.data.metadata.url;
+
+            // window.vueSanitizeUrl is only available since Matomo 5.11, the URL is filtered
+            // server side as well
+            if (window.vueSanitizeUrl) {
+                url = window.vueSanitizeUrl(url);
+            }
+
             if (!url) {
                 return;
             }
