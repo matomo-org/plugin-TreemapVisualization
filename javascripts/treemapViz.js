@@ -408,13 +408,21 @@
 
         /**
          * If the given node has an associated URL, it is opened in a new tab/window.
+         *
+         * The URL is based on tracked data, so it is checked again here before it is opened.
          */
         _openNodeUrl: function (node) {
-            if (node.data.metadata
-                && node.data.metadata.url
-                ) {
-                window.open(node.data.metadata.url, '_blank');
+            if (!node.data.metadata || !node.data.metadata.url) {
+                return;
             }
+
+            var url = window.vueSanitizeUrl(node.data.metadata.url);
+
+            if (!url) {
+                return;
+            }
+
+            window.open(url, '_blank', 'noopener,noreferrer');
         },
 
         /**
