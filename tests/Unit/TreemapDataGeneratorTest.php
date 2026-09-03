@@ -58,6 +58,8 @@ class TreemapDataGeneratorTest extends UnitTestCase
             'scheme that is not allowed'       => array('cylon://example.com/path', null),
             'scheme without a host'            => array('rtp:0/path', null),
             'url with a control character'     => array("http://example.com/\x01", null),
+            'empty url'                        => array('', null),
+            'whitespace only url'              => array('  ', null),
         );
     }
 }
