@@ -16,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Map;
 use Piwik\Piwik;
+use Piwik\UrlHelper;
 
 /**
  * A utility class that generates JSON data meant to be used with the JavaScript
@@ -281,6 +282,14 @@ class TreemapDataGenerator
                     $data['metadata'][$metadataName] = $metadataValue;
                 }
             }
+
+            if (isset($data['metadata']['url'])) {
+                $data['metadata']['url'] = self::makeUrlSafeToOpen($data['metadata']['url']);
+
+                if ($data['metadata']['url'] === null) {
+                    unset($data['metadata']['url']);
+                }
+            }
         }
 
         // add evolution
@@ -330,5 +339,30 @@ class TreemapDataGenerator
     private function makeNode($id, $title, $data = array())
     {
         return array('id' => $id, 'name' => $title, 'data' => $data, 'children' => array());
+    }
+
+    /**
+     * Returns a URL that is safe to open in the browser or null, if the URL cannot be made safe.
+     *
+     * The URL metadata of a row is based on tracked data and can use any scheme, while the treemap
+     * opens the URL of a node when the node is clicked.
+     *
+     * @param string $url
+     * @return string|null
+     */
+    private static function makeUrlSafeToOpen($url)
+    {
+        // a blank URL would end up as the bare scheme below, which shows the link icon on a row
+        // that has no URL at all
+        if (trim($url) === '' || !UrlHelper::isLookLikeSafeUrl($url)) {
+            return null;
+        }
+
+        if (strpos($url, ':') === false) {
+            // a URL without a scheme would be opened relative to the Matomo URL
+            $url = 'http://' . $url;
+        }
+
+        return $url;
     }
 }

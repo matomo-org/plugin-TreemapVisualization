@@ -1,5 +1,8 @@
 ## Changelog
 
+# 6.0.1 - 2026-09-07
+- Improvements in treemap node URL handling
+
 # 6.0.0 - 2026-08-09
 - Compatibility with Matomo 6
 
