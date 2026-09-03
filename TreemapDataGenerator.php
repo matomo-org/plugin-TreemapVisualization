@@ -352,7 +352,9 @@ class TreemapDataGenerator
      */
     private static function makeUrlSafeToOpen($url)
     {
-        if (!UrlHelper::isLookLikeSafeUrl($url)) {
+        // a blank URL would end up as the bare scheme below, which shows the link icon on a row
+        // that has no URL at all
+        if (trim($url) === '' || !UrlHelper::isLookLikeSafeUrl($url)) {
             return null;
         }
 
