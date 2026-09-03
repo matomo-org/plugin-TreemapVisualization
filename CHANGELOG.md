@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.10 - 2026-09-07
+- Keep the link icon off treemap rows that have no URL
+
 # 5.0.9 - 2026-09-02
 - Improvements in treemap node URL handling
 
