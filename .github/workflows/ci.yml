@@ -18,10 +18,5 @@ jobs:
     uses: matomo-org/plugin-ci-workflows/.github/workflows/plugin-ci.yml@main
     with:
       plugin-name: TreemapVisualization
-      # Off for now. Turning it on reports 1 pre-existing license header
-      # error(s) across 10 files -- an InnoCraft EULA header in an OSS repository.
-      # That drift is worth fixing, but correcting licence text is a decision
-      # of its own rather than part of moving CI onto one caller.
-      skip-license-check: true
     secrets:
       TESTS_ACCESS_TOKEN: ${{ secrets.TESTS_ACCESS_TOKEN }}
