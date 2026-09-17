@@ -68,14 +68,14 @@ class TreemapDataGenerator
     /**
      * The available screen width for the treemap visualization.
      *
-     * @var int
+     * @var int|string|false|null
      */
     private $availableWidth;
 
     /**
      * The available screen height for the treemap visualization.
      *
-     * @var int
+     * @var int|string|false|null
      */
     private $availableHeight;
 
@@ -89,14 +89,14 @@ class TreemapDataGenerator
     /**
      * Holds the date of the past period. Implementation detail.
      *
-     * @var string
+     * @var string|null
      */
     private $pastDataDate = null;
 
     /**
      * Callback used to format row labels before they are used in treemap nodes.
      *
-     * @var callback
+     * @var callable|null
      */
     private $labelFormatter = null;
 
@@ -144,7 +144,7 @@ class TreemapDataGenerator
     /**
      * Sets the callback used to format row labels before they are used in treemap nodes.
      *
-     * @param callback $formatter
+     * @param callable $formatter
      */
     public function setLabelFormatter($formatter)
     {
@@ -154,8 +154,8 @@ class TreemapDataGenerator
     /**
      * Sets the available screen dimensions for this visualization.
      *
-     * @param int $availableWidth  The available screen width for the display.
-     * @param int $availableHeight The available screen height for the display.
+     * @param int|string|false $availableWidth  The available screen width for the display.
+     * @param int|string|false $availableHeight The available screen height for the display.
      */
     public function setAvailableDimensions($availableWidth, $availableHeight)
     {
@@ -166,7 +166,8 @@ class TreemapDataGenerator
     /**
      * Generates an array that can be encoded as JSON and used w/ the JavaScript Infovis Toolkit.
      *
-     * @param \Piwik\DataTable $dataTable
+     * @param DataTable|Map $dataTable A Map is only valid together with showEvolutionValues(),
+     *                                 which is what reduces it to its child tables below.
      * @return array
      */
     public function generate($dataTable)
@@ -198,9 +199,7 @@ class TreemapDataGenerator
      * available screen width/height, and truncates the report data so the number of rows
      * will not exceed the max.
      *
-     * @param DataTable $dataTable       The report data. Must be sorted by the metric to graph.
-     * @param int       $availableWidth  Available width in pixels.
-     * @param int       $availableHeight Available height in pixels.
+     * @param DataTable $dataTable The report data. Must be sorted by the metric to graph.
      */
     public function truncateBasedOnAvailableSpace($dataTable)
     {
