@@ -1,1 +1,7 @@
-{}
+{
+    "TreemapVisualization": {
+        "InvalidApiMethodException": "Ugyldig API-metode.",
+        "PluginDescription": "Vis kva rapport som helst i Matomo som eit trekart. Klikk på trekartikonet i kvar rapport for å laste visualiseringa.",
+        "Treemap": "Trekart"
+    }
+}
