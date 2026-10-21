@@ -12,10 +12,13 @@ namespace Piwik\Plugins\TreemapVisualization\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable\Map;
+use Piwik\Date;
 use Piwik\Period\Range;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\TreemapVisualization\TreemapConfig;
 use Piwik\Plugins\TreemapVisualization\TreemapDataGenerator;
+use Piwik\Request;
+use Piwik\Site;
 
 /**
  * DataTable visualization that displays DataTable data as a treemap (see
@@ -31,6 +34,18 @@ class Treemap extends Graph
     public const TEMPLATE_FILE = '@TreemapVisualization/_dataTableViz_treemap.twig';
     public const FOOTER_ICON = 'plugins/TreemapVisualization/images/treemap-icon.png';
     public const FOOTER_ICON_TITLE = 'TreemapVisualization_Treemap';
+
+    /**
+     * The relative dates Range::getLastDate() can go back from, trimmed and in lower case as core
+     * matches them, mapped to the spelling Date::factoryInTimezone() needs. lastWeek and the like
+     * have no previous period.
+     */
+    private const RELATIVE_DATES = [
+        'now' => 'now',
+        'today' => 'today',
+        'yesterday' => 'yesterday',
+        'yesterdaysametime' => 'yesterdaySameTime',
+    ];
 
     /**
      * The list of Actions reports for whom the treemap should have a width of 100%.
@@ -212,11 +227,37 @@ class Treemap extends Graph
 
         if ($this->config->show_evolution_values) {
             $date = Common::getRequestVar('date');
-            list($previousDate, $ignore) = Range::getLastDate($date, $period);
 
-            $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
+            $this->requestConfig->request_parameters_to_modify['date'] = self::getEvolutionDateOfRequestedSite($date, $period);
 
             $this->generator->showEvolutionValues();
         }
+    }
+
+    /**
+     * Returns the date range an evolution value compares, from the previous period to $date.
+     *
+     * The archive resolves a relative date such as 'today' on the site's day when idSite resolves
+     * to one site, and in UTC otherwise. Released core resolves neither a relative range end nor the
+     * day Range::getLastDate() goes back from on the site's day though, so both ends are passed as
+     * dates of the day the report itself is on, until the minimum Matomo version does.
+     *
+     * @internal
+     */
+    public static function getEvolutionDateOfRequestedSite(string $date, string $period): string
+    {
+        $relativeDate = self::RELATIVE_DATES[strtolower(trim($date))] ?? null;
+
+        if ($relativeDate !== null) {
+            $idSites = Site::getIdSitesFromIdSitesString(Request::fromRequest()->getParameter('idSite', ''));
+
+            $timezone = count($idSites) === 1 ? Site::getTimezoneFor(reset($idSites)) : 'UTC';
+
+            $date = Date::factoryInTimezone($relativeDate, $timezone)->toString();
+        }
+
+        list($previousDate, $ignore) = Range::getLastDate($date, $period);
+
+        return $previousDate . ',' . $date;
     }
 }
