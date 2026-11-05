@@ -1,5 +1,8 @@
 ## Changelog
 
+# 6.0.2
+- Evolution values compare a relative date such as today against the period before the site's own day
+
 # 6.0.1 - 2026-09-07
 - Improvements in treemap node URL handling
 

@@ -12,10 +12,14 @@ namespace Piwik\Plugins\TreemapVisualization\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable\Map;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\TreemapVisualization\TreemapConfig;
 use Piwik\Plugins\TreemapVisualization\TreemapDataGenerator;
+use Piwik\Request;
+use Piwik\Site;
 
 /**
  * DataTable visualization that displays DataTable data as a treemap (see
@@ -212,11 +216,41 @@ class Treemap extends Graph
 
         if ($this->config->show_evolution_values) {
             $date = Common::getRequestVar('date');
-            list($previousDate, $ignore) = Range::getLastDate($date, $period);
 
-            $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
+            $this->requestConfig->request_parameters_to_modify['date'] = self::getEvolutionDate($date, $period);
 
             $this->generator->showEvolutionValues();
         }
+    }
+
+    /**
+     * Returns the date parameter that loads the period before $date together with $date's period.
+     * A relative $date such as 'today' is resolved on the day the archive resolves it, a single
+     * site's own day or otherwise UTC's, so both ends of the range name that day.
+     *
+     * @internal
+     */
+    public static function getEvolutionDate(string $date, string $period): string
+    {
+        // lastN, previousN, last-week and date ranges have no single period to compare against
+        if (!str_contains($date, ',') && !preg_match('/last|previous/', $date)) {
+            $date = PeriodFactory::makePeriodFromQueryParams(self::getSingleSiteTimezone(), $period, $date)
+                ->getDateStart()
+                ->toString();
+        }
+
+        [$previousDate] = Range::getLastDate($date, $period);
+
+        return $previousDate . ',' . $date;
+    }
+
+    private static function getSingleSiteTimezone(): string
+    {
+        $idSites = Site::getIdSitesFromIdSitesString(Request::fromRequest()->getStringParameter('idSite', ''));
+        if (count($idSites) === 1 && Piwik::isUserHasViewAccess($idSites)) {
+            return Site::getTimezoneFor(reset($idSites));
+        }
+
+        return 'UTC';
     }
 }
