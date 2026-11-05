@@ -12,10 +12,14 @@ namespace Piwik\Plugins\TreemapVisualization\Visualizations;
 
 use Piwik\Common;
 use Piwik\DataTable\Map;
+use Piwik\Period;
+use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Period\Range;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph;
 use Piwik\Plugins\TreemapVisualization\TreemapConfig;
 use Piwik\Plugins\TreemapVisualization\TreemapDataGenerator;
+use Piwik\Site;
 
 /**
  * DataTable visualization that displays DataTable data as a treemap (see
@@ -202,7 +206,7 @@ class Treemap extends Graph
     private function handleShowEvolutionValues()
     {
         // evolution values cannot be calculated if range period is used or subtable is being loaded
-        $period = Common::getRequestVar('period');
+        $period = (string) $this->requestConfig->getRequestParam('period');
         if (
             $period == 'range'
             || $this->requestConfig->idSubtable
@@ -211,12 +215,41 @@ class Treemap extends Graph
         }
 
         if ($this->config->show_evolution_values) {
-            $date = Common::getRequestVar('date');
-            list($previousDate, $ignore) = Range::getLastDate($date, $period);
+            $date = (string) $this->requestConfig->getRequestParam('date');
+            $idSite = $this->requestConfig->getRequestParam('idSite') ?: '';
 
-            $this->requestConfig->request_parameters_to_modify['date'] = $previousDate . ',' . $date;
+            $this->requestConfig->request_parameters_to_modify['date'] = self::getEvolutionDate($date, $period, $idSite);
 
             $this->generator->showEvolutionValues();
         }
+    }
+
+    /**
+     * Returns "<previous>,<date>" to load $date's period together with the one before it; a relative
+     * $date resolves on the archive's day.
+     *
+     * @internal
+     */
+    public static function getEvolutionDate(string $date, string $period, string|int|array $idSite): string
+    {
+        if (!Period::isMultiplePeriod($date, $period)) {
+            $date = PeriodFactory::makePeriodFromQueryParams(self::getSingleSiteTimezone($idSite), $period, $date)
+                ->getDateStart()
+                ->toString();
+        }
+
+        [$previousDate] = Range::getLastDate($date, $period);
+
+        return $previousDate . ',' . $date;
+    }
+
+    private static function getSingleSiteTimezone(string|int|array $idSite): string
+    {
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+        if (count($idSites) === 1 && Piwik::isUserHasViewAccess($idSites)) {
+            return Site::getTimezoneFor(reset($idSites));
+        }
+
+        return 'UTC';
     }
 }

@@ -15,9 +15,9 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Http\BadRequestException;
 use Piwik\Metrics;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\TreemapVisualization\Visualizations\Treemap;
+use Piwik\Request as PiwikRequest;
 
 /**
  * Exposes report data formatted for the Treemap visualization.
@@ -77,8 +77,8 @@ class API extends \Piwik\Plugin\API
 
         $params = array();
         if ($show_evolution_values) {
-            list($previousDate, $ignore) = Range::getLastDate($date, $period);
-            $params['date'] = $previousDate . ',' . $date;
+            $idSite = PiwikRequest::fromRequest()->getParameter('idSite', '');
+            $params['date'] = Treemap::getEvolutionDate($date, $period, $idSite);
         }
 
         $params['filter_limit']           = false;
