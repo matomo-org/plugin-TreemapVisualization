@@ -1,1 +1,6 @@
-{}
+{
+    "TreemapVisualization": {
+        "InvalidApiMethodException": "Ugyldig API-metode.",
+        "PluginDescription": "Visualiser enhver rapport i Matomo som et treemap. Klik på treemap-ikonet i hver rapport for at indlæse visualiseringen."
+    }
+}
