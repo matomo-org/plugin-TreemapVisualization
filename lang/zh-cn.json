@@ -1,1 +1,7 @@
-{}
+{
+    "TreemapVisualization": {
+        "InvalidApiMethodException": "无效的 API 方法。",
+        "PluginDescription": "将 Matomo 中的任何报告可视化为树状图。点击每个报告中的树状图图标即可加载该可视化效果。",
+        "Treemap": "树状图"
+    }
+}
