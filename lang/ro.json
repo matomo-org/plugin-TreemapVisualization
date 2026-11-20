@@ -1,1 +1,7 @@
-{}
+{
+    "TreemapVisualization": {
+        "InvalidApiMethodException": "Metodă API nevalidă.",
+        "PluginDescription": "Vizualizați orice raport din Matomo ca Treemap. Faceți clic pe pictograma Treemap din fiecare raport pentru a încărca vizualizarea.",
+        "Treemap": "Treemap"
+    }
+}
